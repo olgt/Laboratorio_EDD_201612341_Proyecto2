@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package proyecto.pkg2;
+import Utilities.JsonFileOpenerLugares;
 import proyecto.pkg2.Estructura_Grafo.*;
 import com.teamdev.jxmaps.*;
 import GoogleMap.*;
@@ -14,26 +15,46 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
 import Estructura_Arbol_B.*;
+import Utilities.*;
+import com.google.common.hash.Hashing;
+import java.nio.charset.StandardCharsets;
+import Screens.*;
+import javax.swing.JPanel;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
- *
  * @author Oscar
  */
 public class Proyecto2 {
 
+    
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        String apiKey = "AIzaSyAQIa8L5-4XCFJbFkKwlHoPu-7psnrEdJo";
-        String apiKeyPrestada = "AIzaSyAR-xSrf5bYghVZDdfQ1F0Yk3nWpyViyig";
+    public static void main(String[] args){      
         
+        
+        PrincipalFrame principal = new PrincipalFrame();
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        principal.setVisible(true);
+        
+        
+        /*UbicacionesMapa nuevasUbicaciones = new UbicacionesMapa();
+        nuevasUbicaciones.cargarUbicaciones(
+                "C:\\Users\\Oscar\\Dropbox\\EDD_2020_2do_Semestre\\Proyecto 2\\filesTest\\Lugares.json",
+                "C:\\Users\\Oscar\\Dropbox\\EDD_2020_2do_Semestre\\Proyecto 2\\filesTest\\Grafo.json"
+        );
+        LoginScreen newLogin = new LoginScreen();
+        */
+        
+        
+        
+        /*
         Grafo grafoActual = new Grafo();
         
         grafoActual.addVertice(1, "gas", "Vertice1", 1, 1);
@@ -47,37 +68,36 @@ public class Proyecto2 {
         grafoActual.enlazar(4, 1);
         grafoActual.enlazar(2, 3);
         grafoActual.enlazar(5, 3);
-        grafoActual.enlazar(4, 3);        
+        grafoActual.enlazar(4, 3);
         System.out.println(grafoActual.getListaVertices().getVertice(2).getLatitud());
         System.out.println(grafoActual.getListaVertices().getVertice(2).getLongitud());
         grafoActual.getListaVertices().recorrerLista();
+        */
+        /*
+        *Se Utilizo la libreria de Google, Guava, y se procedio agregar el
+        *archivo .jar. La cual nos facilita la creacion de un codigo Hash. 
+        */
+        String sha256hex = Hashing.sha256().hashString("hola", StandardCharsets.UTF_8).toString();
+        System.out.println(sha256hex);
+        //Resultado de Metodo =                       b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79
+        //Resultado de calculadora de SHA256 Online = b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79
+
+        /*
+        nuevo2.abrir("C:\\Users\\Oscar\\Dropbox\\EDD_2020_2do_Semestre\\Proyecto 2\\filesTest\\Grafo.json");
+        
+        System.out.println("Conexiones:");
+        System.out.println(nuevo2.getInicio(0));
+        System.out.println(nuevo2.getFinal(0));
+        System.out.println(nuevo2.getMoneda(0));
+        System.out.println(nuevo2.getPeso(0));
+        System.out.println(nuevo2.getUnidad(0));
+        System.out.println(nuevo2.getPrecio(0));
+        System.out.println(nuevo2.getNoItems());
+        */
         
         
-        JsonFileOpener nuevo = new JsonFileOpener();
-        try {
-            nuevo.abrir("C:\\Users\\Oscar\\Dropbox\\EDD_2020_2do_Semestre\\Proyecto 2\\filesTest\\Lugares.json");
-        } catch (JSONException ex) {
-            Logger.getLogger(Proyecto2.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Proyecto2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        ArbolB<Integer, Integer> arbol = new ArbolB<>(5);
-        for(int i = 0; i< 10; i++){
-            arbol.insertar(i, i);
-        }
         
         /*
-        MapViewOptions opciones = new MapViewOptions();
-        opciones.importPlaces();
-        opciones.setApiKey(apiKey);
-        
-        Mapa mapa = new Mapa(opciones);
-        
-        LatLng[] path = new LatLng[2];
-        String coordenada = "14.589315,-90.551978|14.588744,-90.553809";
-        String ruta = "https://roads.googleapis.com/v1/snapToRoads?path="+coordenada+"&interpolate=true&key=AIzaSyAR-xSrf5bYghVZDdfQ1F0Yk3nWpyViyig";
-        
         try{
             URL rutaUrl = new URL(ruta);
             URLConnection conexion = rutaUrl.openConnection();
@@ -90,12 +110,12 @@ public class Proyecto2 {
             
             for(int i = 0; i< arreglo.length(); i++){
                 System.out.println("Coordenada " + (i +1));
-                System.out.println(arreglo.get(i));
+                //System.out.println(arreglo.get(i));
                 
                 JSONObject lugar = (JSONObject) arreglo.get(i);
                 JSONObject location = (JSONObject) lugar.get("location");
                 
-                System.out.println(location.toString());
+                //System.out.println(location.toString());
                 
                 double lat = Double.parseDouble(location.get("latitude").toString());
                 double lng = Double.parseDouble(location.get("longitude").toString());
@@ -109,20 +129,23 @@ public class Proyecto2 {
             Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE,null,ex);
         }
         mapa.agregarGrafo(path, true);
-
-        
-        JFrame frame = new JFrame("Mapa");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(1000, 800);
-        frame.add(mapa, BorderLayout.CENTER);
-        frame.setVisible(true);
         */
         
+        //ArbolB<Integer, Integer> arbol = new ArbolB<>(5);
+        //arbol.insertar(10,10);
+        //arbol.insertar(11,11);
+        //arbol.insertar(12,12);
+        //arbol.insertar(14,14);
+        //arbol.insertar(20,20);
+        //arbol.insertar(16,16);
+        
+        //for(int i = 0; i<= 5; i++){
+          //  arbol.insertar(i, i);
+        //}
         
         
-        
-    }
-    
-    
+        //arbol.graficarArbol("test");
+        //arbol.imprimirArbol(arbol.getRaiz(), 1);
+    }   
+           
 }
