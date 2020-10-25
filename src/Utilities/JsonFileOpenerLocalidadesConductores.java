@@ -22,6 +22,8 @@
 */
 package Utilities;
 
+import Estructura_Arbol_B.ArbolB;
+import Estructura_Arbol_B.Usuario;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -73,14 +75,16 @@ public class JsonFileOpenerLocalidadesConductores {
         return idConductor;
     }
     
-    public long getIdLugar(int index){
-        long lugarId;
+    public String getNombreLugar(int index){
+        String lugarNombre;
         JSONArray jsonArray1 = (JSONArray) this.jsonFile.get("localidades");
         JSONObject jsonArray2 = (JSONObject) jsonArray1.get(index);
         
-        lugarId = (long) jsonArray2.get("id_lugar");
-        
-        return lugarId;
+        long lugarId = (long) jsonArray2.get("id_lugar");
+        int lugarIdInt = (int) lugarId;
+        lugarNombre = Integer.toString(lugarIdInt);
+
+        return lugarNombre;
     }
 
     public boolean getDisponibilidad(int index){
@@ -91,5 +95,26 @@ public class JsonFileOpenerLocalidadesConductores {
         disponibilidad = (boolean) jsonArray2.get("disponibilidad");
         
         return disponibilidad;
+    }
+    
+    public void asignarLocalidadesConductores(ArbolB arbolConductores){
+        
+        
+        for (int i = 0; i < this.size; i++) {
+            int id = (int) getIdConductor(i);
+            String nombreLugar = getNombreLugar(i);
+            Boolean disponibilidad = getDisponibilidad(i);
+            System.out.println(id);
+            
+            Usuario nuevo = arbolConductores.encontrarUsuarioJson(id, arbolConductores.getRaiz());
+            
+            if(nuevo != null){
+                nuevo.setLugarActual(nombreLugar);
+                System.out.println("Localidad Agregada");
+                nuevo.setDisponible(disponibilidad);
+                System.out.println("Disponiblidad agregada");
+            }
+        }
+        
     }
 }

@@ -5,6 +5,8 @@
  */
 package Utilities;
 
+import Estructura_Arbol_B.ArbolB;
+import Estructura_Arbol_B.Usuario;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -69,13 +71,34 @@ public class JsonFileOpenerLocalidadesUsuarios {
         return idUsuario;
     }
     
-    public long getIdLugar(int index){
-        long lugarId;
+    public String getLugar(int index){
+        String lugarNombre;
         JSONArray jsonArray1 = (JSONArray) this.jsonFile.get("localidades");
         JSONObject jsonArray2 = (JSONObject) jsonArray1.get(index);
         
-        lugarId = (long) jsonArray2.get("id_lugar");
+        long lugarId = (long) jsonArray2.get("id_lugar");
+        int lugarIdInt = (int) lugarId;
+        lugarNombre = Integer.toString(lugarIdInt);
         
-        return lugarId;
+        
+        return lugarNombre;
+    }
+    
+    public void asignarLocalidadesUsuarios(ArbolB arbolUsuarios){
+        
+        
+        for (int i = 0; i < this.size; i++) {
+            int id = (int) getIdUsuario(i);
+            String nombreLugar = getLugar(i);
+            System.out.println(id);
+            
+            Usuario nuevo = arbolUsuarios.encontrarUsuarioJson(id, arbolUsuarios.getRaiz());
+            
+            if(nuevo != null){
+                nuevo.setLugarActual(nombreLugar);
+                System.out.println("Localidad Agregada");
+            }
+        }
+        
     }
 }

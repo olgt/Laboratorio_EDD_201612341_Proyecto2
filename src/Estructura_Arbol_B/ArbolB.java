@@ -187,6 +187,72 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
     }
 
+    public Usuario encontrarUsuarioJson(int id, Page pagina) {
+        Usuario actual = null;
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        int[] arrayValores = llenarArray(llaves);
+        int numeroPaginaActual = this.numeroNodo;
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+
+            if (llaveActual != null && llaveActual.getKey().compareTo(id) > 0) {
+                if (llaveActual.getDerecha() != null) {
+
+                    actual = encontrarUsuarioJson(id, llaveActual.getDerecha());
+                    return actual;
+                }
+            } else if (llaveActual != null && llaveActual.getKey().compareTo(id) < 0) {
+                if (llaveActual.getIzquierda() != null) {
+
+                    actual = encontrarUsuarioJson(id, llaveActual.getIzquierda());
+                    return actual;
+                }
+            } else if (llaveActual != null && llaveActual.getKey().compareTo(id) == 0) {
+                actual = (Usuario) llaveActual.getValor();
+                return actual;
+            }
+        }
+
+        if (actual != null) {
+            System.out.println(actual.getNombre());
+        } else {
+            System.out.println("null, not found");
+        }
+        return actual;
+
+    }
+
+    public Usuario encontrarUsuario(String nombreUsuario, Page pagina) {
+        Usuario actual = null;
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        //int[] arrayValores = llenarArray(llaves);
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+            if (llaveActual != null) {
+                actual = (Usuario) llaveActual.getValor();
+                String nombreUsuarioActual = actual.getUsuario();
+
+                if (nombreUsuarioActual.equals(nombreUsuario)) {
+                    return actual;
+                } else if (llaveActual.getDerecha() != null) {
+                    actual = encontrarUsuario(nombreUsuario, llaveActual.getDerecha());
+                    return actual;
+                } else if (llaveActual.getIzquierda() != null) {
+                    actual = encontrarUsuario(nombreUsuario, llaveActual.getIzquierda());
+                    return actual;
+                }
+            }
+        }
+
+        return actual;
+    }
+
     private int colocarNodo(Page node, Key newKey) {
         int index = -1;
         for (int i = 0; i < k; i++) {
@@ -242,8 +308,8 @@ public class ArbolB<T extends Comparable<T>, V> {
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
 
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "dot -Tpdf graficas\\arboltest.gv -o graficas\\arboltest.pdf");
-            ProcessBuilder builder2 = new ProcessBuilder("cmd.exe", "/c", "graficas\\arboltest.pdf");
+            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "dot -Tpdf graficas\\arbol" + nombre + ".gv -o graficas\\arbol" + nombre + ".pdf");
+            ProcessBuilder builder2 = new ProcessBuilder("cmd.exe", "/c", "graficas\\arbol" + nombre + ".pdf");
             builder.redirectErrorStream(true);
             Process p = builder.start();
             Process open = builder2.start();
@@ -252,6 +318,33 @@ public class ArbolB<T extends Comparable<T>, V> {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    public int getLastIndex(Page pagina) {
+        int lastIndex = 0;
+        Usuario actual;
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+            Key llaveSiguiente=null;
+            
+            if (i != k - 1) {
+                llaveSiguiente = llaves[i + 1];
+            }
+
+            if ((llaveSiguiente == null || i == k - 1) && llaveActual != ull) {
+                actual = (Usuario) llaveActual.getValor();
+                lastIndex = actual.getId();
+                if (llaveActual.getDerecha() != null) {
+                    lastIndex = getLastIndex(llaveActual.getDerecha());
+                    return lastIndex;
+                }
+            }
+        }
+        return lastIndex;
     }
 
     private void graficarPaginas(FileWriter myWriter, Page pagina, int numeroPagina) {
@@ -270,7 +363,7 @@ public class ArbolB<T extends Comparable<T>, V> {
                     + "<f5>" + arrayValores[4] + "| <f50>"
                     + "\"]; \n");
 
-            if (llaves[0].getIzquierda() != null) {
+            if (llaves[0] != null && llaves[0].getIzquierda() != null) {
                 int numeroPaginaSigueinte = numeroPaginaActual + 1;
 
                 myWriter.write("\"node" + numeroPaginaActual + "\":" + claveSwitchIzquierda(0) + " -> \"node" + numeroPaginaSigueinte + "\":" + "f1" + "; \n");
@@ -316,7 +409,7 @@ public class ArbolB<T extends Comparable<T>, V> {
             if (llaves[i] == null) {
                 arrayValores[i] = -1;
             } else {
-                arrayValores[i] = (int) llaves[i].getValor();
+                arrayValores[i] = (int) llaves[i].getKey();
             }
         }
 
@@ -366,4 +459,5 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
         return codigo;
     }
+
 }

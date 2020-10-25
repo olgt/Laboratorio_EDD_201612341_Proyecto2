@@ -1,0 +1,5 @@
+digraph g {
+splines = false;
+node [shape = record,height=.1]; 
+node0[label = "<f01> | <f1>24| <f12> |<f2>25| <f23> |<f3>-1| <f34> |<f4>-1| <f45> |<f5>-1| <f50>"]; 
+}

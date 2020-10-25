@@ -1,12 +1,12 @@
 {
   "localidades": [
     {
-      "id_conductor": 1,
+      "id_conductor": 24,
       "id_lugar": 25,
       "disponibilidad": true
     },
     {
-      "id_conductor": 2,
+      "id_conductor": 25,
       "id_lugar": 24,
       "disponibilidad": false
     }

@@ -77,8 +77,8 @@ public class Proyecto2 {
         *Se Utilizo la libreria de Google, Guava, y se procedio agregar el
         *archivo .jar. La cual nos facilita la creacion de un codigo Hash. 
         */
-        String sha256hex = Hashing.sha256().hashString("hola", StandardCharsets.UTF_8).toString();
-        System.out.println(sha256hex);
+        //String sha256hex = Hashing.sha256().hashString("hola", StandardCharsets.UTF_8).toString();
+        //System.out.println(sha256hex);
         //Resultado de Metodo =                       b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79
         //Resultado de calculadora de SHA256 Online = b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79
 
