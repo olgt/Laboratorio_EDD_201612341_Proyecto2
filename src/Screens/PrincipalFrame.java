@@ -6,7 +6,9 @@
 package Screens;
 
 import Estructura_Arbol_B.ArbolB;
+import Estructura_Arbol_B.Factura;
 import Estructura_Arbol_B.Usuario;
+import Estructura_Arbol_B.Viaje;
 import Utilities.JsonFileOpenerLocalidadesConductores;
 import Utilities.JsonFileOpenerLocalidadesUsuarios;
 import Utilities.JsonFileOpenerUsuarios;
@@ -22,9 +24,11 @@ import javax.swing.JFileChooser;
  */
 public class PrincipalFrame extends javax.swing.JFrame {
 
-    private ArbolB<Integer, Integer> arbolUsuarios = new ArbolB<>(5);
-    private ArbolB<Integer, Integer> arbolConductores = new ArbolB<>(5);
-    private ArbolB<Integer, Integer> arbolViajes = new ArbolB<>(5);
+    private ArbolB<Integer, Usuario> arbolUsuarios = new ArbolB<>(5);
+    private ArbolB<Integer, Usuario> arbolConductores = new ArbolB<>(5);
+    private ArbolB<Integer, Viaje> arbolViajes = new ArbolB<>(5);
+    private ArbolB<Integer, Factura> arbolFacturas = new ArbolB<>(5);
+    
     Usuario usuarioActual = null;
 
     public PrincipalFrame() {
@@ -929,7 +933,6 @@ public class PrincipalFrame extends javax.swing.JFrame {
         textFieldCorreo1.setText(usuarioActual.getCorreo());
         textFieldNombre1.setText(usuarioActual.getNombre());
         textFieldTelefono1.setText(usuarioActual.getTelefono());
-
         this.setContentPane(panelDetallesConductor);
         this.repaint();
 
@@ -946,10 +949,29 @@ public class PrincipalFrame extends javax.swing.JFrame {
 
     private void buttonRegistrarNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarNuevoUsuarioActionPerformed
         // TODO add your handling code here:
-        int lastId = arbolUsuarios.getLastIndex(arbolUsuarios.getRaiz());
-        Usuario nuevoUsuario = new Usuario(lastId, textFieldNuevoNombre.getText(), textFieldNuevoUsuario.getText(),
-                textFieldNuevoCorreo.getText(), textFieldNuevoContraseña.getText(), textFieldNuevoTelefono.getText(), (String) rolComboBox.getSelectedItem());
-        jPanelRegistro.setVisible(false);
+        int lastIdUsuario = arbolUsuarios.getLastIndex(arbolUsuarios.getRaiz());
+        int lastIdConductor = arbolConductores.getLastIndex(arbolConductores.getRaiz());
+
+        String rolSeleccionado = (String) rolComboBox.getSelectedItem();
+        String passwordEncrypted = Hashing.sha256().hashString(textFieldNuevoContraseña.getText(), StandardCharsets.UTF_8).toString();
+
+        if (rolSeleccionado.equals("Normal")) {
+            Usuario nuevoUsuario = new Usuario(lastIdUsuario + 1, textFieldNuevoNombre.getText(), textFieldNuevoUsuario.getText(),
+                    textFieldNuevoCorreo.getText(), passwordEncrypted, textFieldNuevoTelefono.getText(), (String) rolComboBox.getSelectedItem());
+
+            jPanelRegistro.setVisible(false);
+            arbolUsuarios.insertar(lastIdUsuario + 1, nuevoUsuario);
+            buttonRegistrarNuevoUsuario.setVisible(false);
+        } else {
+            Usuario nuevoUsuario = new Usuario(lastIdConductor + 1, textFieldNuevoNombre.getText(), textFieldNuevoUsuario.getText(),
+                    textFieldNuevoCorreo.getText(), passwordEncrypted, textFieldNuevoTelefono.getText(), (String) rolComboBox.getSelectedItem());
+
+            jPanelRegistro.setVisible(false);
+            arbolConductores.insertar(lastIdConductor + 1, nuevoUsuario);
+            buttonRegistrarNuevoUsuario.setVisible(false);
+        }
+
+
     }//GEN-LAST:event_buttonRegistrarNuevoUsuarioActionPerformed
 
     /**

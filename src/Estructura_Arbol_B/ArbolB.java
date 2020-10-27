@@ -335,7 +335,7 @@ public class ArbolB<T extends Comparable<T>, V> {
                 llaveSiguiente = llaves[i + 1];
             }
 
-            if ((llaveSiguiente == null || i == k - 1) && llaveActual != ull) {
+            if ((llaveSiguiente == null || i == k - 1) && llaveActual != null) {
                 actual = (Usuario) llaveActual.getValor();
                 lastIndex = actual.getId();
                 if (llaveActual.getDerecha() != null) {
