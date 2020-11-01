@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto.pkg2.Estructura_Grafo;
+package Estructura_Grafo;
 
 /**
  *
@@ -40,7 +40,7 @@ public class ListaEnlazadaArista {
         }
     }
     
-    public void delete(int origen, int destino){
+    public void delete(String origen, String destino){
         NodoArista actual = searchNode(origen, destino);
         
         if(actual != null){
@@ -54,14 +54,15 @@ public class ListaEnlazadaArista {
         }
     }
     
-    public NodoArista searchNode(int origen, int destino){
+    public NodoArista searchNode(String origen, String destino){
         NodoArista actual = this.head;
         
         if(this.head == null){
             return null;
         }
         else while(actual != null){
-            if((origen == actual.getVerticeA() && destino == actual.getVerticeB()) || (origen == actual.getVerticeB() && destino == actual.getVerticeA())){
+            if((origen.equals(actual.getVerticeA()) && destino.equals(actual.getVerticeB())) || 
+                    (origen.equals(actual.getVerticeB()) && destino.equals(actual.getVerticeA()))){
                 return actual;
             }
             actual = actual.getSiguiente();

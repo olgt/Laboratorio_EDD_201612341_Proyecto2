@@ -2,12 +2,12 @@
   "localidades": [
     {
       "id_conductor": 24,
-      "id_lugar": 25,
+      "id_lugar": "Gasolinera puma quetzal",
       "disponibilidad": true
     },
     {
       "id_conductor": 25,
-      "id_lugar": 24,
+      "id_lugar": "T-3",
       "disponibilidad": false
     }
   ]

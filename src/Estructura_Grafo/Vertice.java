@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto.pkg2.Estructura_Grafo;
+package Estructura_Grafo;
 
 /**
  *
@@ -14,26 +14,36 @@ public class Vertice {
     private ListaEnlazadaArista listaAristas;
     private Vertice siguiente, anterior;
     private String nombre, categoria;
-    private int latitud, longitud;
+    private double latitud, longitud;
+    private boolean visitado;
     
-    public Vertice(int numero, String categoria, String nombre, int latitud, int longitud){
+    public Vertice(int numero, String categoria, String nombre, double latitud, double longitud){
         this.numero = numero;
         this.listaAristas = new ListaEnlazadaArista();
         this.nombre = nombre;
         this.categoria = categoria;
         this.latitud = latitud;
         this.longitud = longitud;
+        this.visitado = false;
+    }
+    
+    public boolean isVisitado(){
+        return this.visitado;
+    }
+    
+    public void setVisitado(boolean isVisitado){
+        this.visitado = isVisitado;
     }
     
     public String getName(){
         return this.nombre;
     }
     
-    public int getLongitud(){
+    public double getLongitud(){
         return this.longitud;
     }
     
-    public int getLatitud(){
+    public double getLatitud(){
         return this.latitud;
     }
     

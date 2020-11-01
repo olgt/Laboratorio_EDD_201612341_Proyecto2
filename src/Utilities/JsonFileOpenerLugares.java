@@ -5,6 +5,7 @@
  */
 package Utilities;
 import Estructura_Arbol_B.Usuario;
+import Estructura_Grafo.Grafo;
 import Estructura_Tabla_Hash.NodeLugar;
 import Estructura_Tabla_Hash.Table;
 import com.google.common.hash.Hashing;
@@ -104,12 +105,14 @@ public class JsonFileOpenerLugares {
         return lugarLon;
     }
             
-    public void agregarHashTable(Table tabla){
+    public void agregarHashTable(Table tabla, Grafo grafo){
         for (int i = 0; i < this.size; i++) {
 
             //(int id, String categoria, String nombre, double lat, double lon)
                     
             NodeLugar actual = new NodeLugar((int) lugarGetId(i), lugarGetCategoria(i), lugarGetNombre(i), lugarGetLatitud(i), lugarGetLongitud(i));
+            grafo.addVertice((int) lugarGetId(i), lugarGetCategoria(i), lugarGetNombre(i), lugarGetLatitud(i), lugarGetLongitud(i));
+            
             
             tabla.insertar((int) lugarGetId(i), lugarGetCategoria(i), lugarGetNombre(i), lugarGetLatitud(i), lugarGetLongitud(i), actual.getAscii());
         }

@@ -10,7 +10,7 @@
     {
       "id": 2,
       "Categoria": "Plaza",
-      "Nombre": "Plaza Villa nueva",
+      "Nombre": "Plaza Villa Nueva",
       "Lat": 14.533,
       "Lon": -90.5852
     },
@@ -20,6 +20,21 @@
       "Nombre": "Gasolinera puma quetzal",
       "Lat": 14.536,
       "Lon": -90.5868
+    },
+    {
+      "id": 4,
+      "Categoria": "Home",
+      "Nombre": "Home",
+      "Lat": 14.66679915685288,
+      "Lon": -90.58124439102131,
+    },
+    { 
+
+      "id": 5,
+      "Categoria": "Restaurante",
+      "Nombre": "Ay Carmela",
+      "Lat": 14.659038,
+      "Lon": -90.566123,
     }
   ]
 }

@@ -5,18 +5,27 @@
  */
 package Screens;
 
-import Estructura_Arbol_B.ArbolB;
-import Estructura_Arbol_B.Factura;
-import Estructura_Arbol_B.Usuario;
-import Estructura_Arbol_B.Viaje;
-import Utilities.JsonFileOpenerLocalidadesConductores;
-import Utilities.JsonFileOpenerLocalidadesUsuarios;
-import Utilities.JsonFileOpenerUsuarios;
+import Estructura_Arbol_B.*;
+import Estructura_Grafo.Grafo;
+import Estructura_Grafo.ListaEnlazadaArista;
+import Estructura_Grafo.ListaEnlazadaVertices;
+import Estructura_Grafo.NodoArista;
+import Estructura_Grafo.ShortestPath;
+import Estructura_Grafo.Vertice;
+import Estructura_Tabla_Hash.*;
+import GoogleMap.Mapa;
+import Utilities.*;
 import com.google.common.hash.Hashing;
+import com.teamdev.jxmaps.LatLng;
+import com.teamdev.jxmaps.MapViewOptions;
+import java.awt.BorderLayout;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -28,8 +37,13 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private ArbolB<Integer, Usuario> arbolConductores = new ArbolB<>(5);
     private ArbolB<Integer, Viaje> arbolViajes = new ArbolB<>(5);
     private ArbolB<Integer, Factura> arbolFacturas = new ArbolB<>(5);
-    
+    private Table tablaLugares = new Table(10);
+    private Grafo grafo = new Grafo();
+    private Metodos metodos = new Metodos();
+
     Usuario usuarioActual = null;
+    String apiKey = "AIzaSyAQIa8L5-4XCFJbFkKwlHoPu-7psnrEdJo";
+    String apiKeyPrestada = "AIzaSyAR-xSrf5bYghVZDdfQ1F0Yk3nWpyViyig";
 
     public PrincipalFrame() {
         initComponents();
@@ -37,6 +51,8 @@ public class PrincipalFrame extends javax.swing.JFrame {
         comboBoxRoles.addItem("Usuario");
         comboBoxRoles.addItem("Conductor");
         jPanelRegistro.setVisible(false);
+        buttonRegistrarNuevoUsuario.setVisible(false);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -92,6 +108,15 @@ public class PrincipalFrame extends javax.swing.JFrame {
         buttonDetallesConductor = new javax.swing.JButton();
         buttonSalirMainConductor = new javax.swing.JButton();
         mensajeBienvenidaUsuario1 = new javax.swing.JLabel();
+        panelPedirViaje = new javax.swing.JPanel();
+        buttonSalirMainConductor1 = new javax.swing.JButton();
+        mensajeBienvenidaUsuario2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableLugares = new javax.swing.JTable();
+        jLabel24 = new javax.swing.JLabel();
+        buttonCalcularViaje = new javax.swing.JButton();
+        labelPrecio = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -129,11 +154,21 @@ public class PrincipalFrame extends javax.swing.JFrame {
         });
 
         cargarLugaresButton.setText("Cargar Lugares");
+        cargarLugaresButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarLugaresButtonActionPerformed(evt);
+            }
+        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("jLabel1");
 
         cargarConexionesButton.setText("Cargar Conexiones");
+        cargarConexionesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarConexionesButtonActionPerformed(evt);
+            }
+        });
 
         cargarLocalidadesUsuarios.setText("Cargar Localidades Usuarios");
         cargarLocalidadesUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -152,6 +187,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
         cargarReportesButton.setText("Cargar Reportes");
 
         cargarMapaButton.setText("Cargar Mapa");
+        cargarMapaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarMapaButtonActionPerformed(evt);
+            }
+        });
 
         salirAdmin.setText("Salir");
         salirAdmin.addActionListener(new java.awt.event.ActionListener() {
@@ -308,6 +348,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
         panelMainUsuario.setPreferredSize(new java.awt.Dimension(734, 730));
 
         buttonPedirViaje.setText("Pedir Viaje");
+        buttonPedirViaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPedirViajeActionPerformed(evt);
+            }
+        });
 
         buttonDetallesUsuario.setText("Detalles de Cuenta");
         buttonDetallesUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -497,6 +542,123 @@ public class PrincipalFrame extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(buttonSalirMainConductor, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(111, Short.MAX_VALUE))
+        );
+
+        panelPedirViaje.setBackground(new java.awt.Color(204, 255, 204));
+        panelPedirViaje.setForeground(new java.awt.Color(51, 0, 51));
+        panelPedirViaje.setPreferredSize(new java.awt.Dimension(734, 730));
+
+        buttonSalirMainConductor1.setText("Salir");
+        buttonSalirMainConductor1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSalirMainConductor1ActionPerformed(evt);
+            }
+        });
+
+        mensajeBienvenidaUsuario2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        mensajeBienvenidaUsuario2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        mensajeBienvenidaUsuario2.setText("Lugares Disponibles");
+
+        jButton1.setText("Pedir Viaje");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTableLugares.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Categoria", "Lugar"
+            }
+        ));
+        jTableLugares.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jTableLugares);
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabel24.setText("Precio");
+
+        buttonCalcularViaje.setText("Calcular Viaje");
+        buttonCalcularViaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCalcularViajeActionPerformed(evt);
+            }
+        });
+
+        labelPrecio.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        labelPrecio.setText("0.0");
+
+        javax.swing.GroupLayout panelPedirViajeLayout = new javax.swing.GroupLayout(panelPedirViaje);
+        panelPedirViaje.setLayout(panelPedirViajeLayout);
+        panelPedirViajeLayout.setHorizontalGroup(
+            panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPedirViajeLayout.createSequentialGroup()
+                .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPedirViajeLayout.createSequentialGroup()
+                        .addGap(135, 135, 135)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelPedirViajeLayout.createSequentialGroup()
+                        .addGap(202, 202, 202)
+                        .addComponent(mensajeBienvenidaUsuario2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPedirViajeLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonSalirMainConductor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonCalcularViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(63, 63, 63)
+                .addComponent(jLabel24)
+                .addGap(47, 47, 47)
+                .addComponent(labelPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
+        );
+        panelPedirViajeLayout.setVerticalGroup(
+            panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPedirViajeLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(mensajeBienvenidaUsuario2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(buttonCalcularViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(labelPrecio)
+                    .addGroup(panelPedirViajeLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonSalirMainConductor1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -790,6 +952,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private void registrarseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarseButtonActionPerformed
         // TODO add your handling code here:
         jPanelRegistro.setVisible(true);
+        buttonRegistrarNuevoUsuario.setVisible(true);
     }//GEN-LAST:event_registrarseButtonActionPerformed
 
     private void salirAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirAdminActionPerformed
@@ -806,7 +969,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
         JsonFileOpenerUsuarios fileOpener = new JsonFileOpenerUsuarios();
 
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(new java.io.File(".\\filesTest"));
         chooser.setSelectedFile(new File(""));
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         // chooser.setAcceptAllFileFilterUsed(false);
@@ -824,7 +987,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
         JsonFileOpenerLocalidadesUsuarios fileOpener = new JsonFileOpenerLocalidadesUsuarios();
 
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(new java.io.File(".\\filesTest"));
         chooser.setSelectedFile(new File(""));
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         // chooser.setAcceptAllFileFilterUsed(false);
@@ -843,7 +1006,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
         JsonFileOpenerLocalidadesConductores fileOpener = new JsonFileOpenerLocalidadesConductores();
 
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(new java.io.File(".\\filesTest"));
         chooser.setSelectedFile(new File(""));
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         // chooser.setAcceptAllFileFilterUsed(false);
@@ -974,6 +1137,162 @@ public class PrincipalFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonRegistrarNuevoUsuarioActionPerformed
 
+    private void cargarLugaresButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarLugaresButtonActionPerformed
+        // TODO add your handling code here:
+        JsonFileOpenerLugares fileOpener = new JsonFileOpenerLugares();
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File(".\\filesTest"));
+        chooser.setSelectedFile(new File(""));
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        // chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(jPanel1) == JFileChooser.OPEN_DIALOG) {
+            fileOpener.abrir(chooser.getSelectedFile().getPath());
+            fileOpener.agregarHashTable(tablaLugares, grafo);
+            //tablaLugares.graficar("test");
+        } else {
+            // do when cancel
+        }
+
+    }//GEN-LAST:event_cargarLugaresButtonActionPerformed
+
+    private void cargarConexionesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarConexionesButtonActionPerformed
+        // TODO add your handling code here:
+        JsonFileOpenerConexiones fileOpener = new JsonFileOpenerConexiones();
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File(".\\filesTest"));
+        chooser.setSelectedFile(new File(""));
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        // chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(jPanel1) == JFileChooser.OPEN_DIALOG) {
+            fileOpener.abrir(chooser.getSelectedFile().getPath());
+            fileOpener.armarConexiones(tablaLugares, grafo);
+            System.out.println("Conexiones Cargadas");
+
+            grafo.getListaVertices().recorrerLista();
+        } else {
+            // do when cancel
+        }
+    }//GEN-LAST:event_cargarConexionesButtonActionPerformed
+
+    private void cargarMapaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarMapaButtonActionPerformed
+        
+        NodeLugar[] arreglo = tablaLugares.getArreglo();
+
+        MapViewOptions opciones = new MapViewOptions();
+        opciones.importPlaces();
+        opciones.setApiKey(apiKey);
+
+        Mapa mapa = new Mapa(opciones);
+        mapa.esperar();
+
+        for (int i = 0; i < tablaLugares.getSize(); i++) {
+            if (arreglo[i] != null) {
+                double lat = arreglo[i].getLat();
+                double lon = arreglo[i].getLon();
+                LatLng latlong1 = new LatLng(lat, lon);
+
+                mapa.centrarEnUsuario(latlong1);
+                mapa.agregarMarcador(latlong1);
+            }
+        }
+
+        for (int i = 0; i < grafo.getListaVertices().getSize(); i++) {
+            ListaEnlazadaVertices listaV = grafo.getListaVertices();
+            Vertice actualV = listaV.getHead();
+
+            while (actualV != null) {
+                ListaEnlazadaArista listaA = actualV.getAdyacentes();
+                NodoArista actualA = listaA.getHead();
+
+                while (actualA != null) {
+                    String idInicio = actualA.getVerticeA();
+                    String idFinal = actualA.getVerticeB();
+
+                    Vertice verticeInicio = grafo.existe(idInicio);
+                    Vertice verticeFinal = grafo.existe(idFinal);
+
+                    LatLng latlong1 = new LatLng(verticeInicio.getLatitud(), verticeInicio.getLongitud());
+                    LatLng latlong2 = new LatLng(verticeFinal.getLatitud(), verticeFinal.getLongitud());
+
+                    mapa.agregarLinea(latlong1, latlong2, true);
+                    actualA = actualA.getSiguiente();
+                }
+                actualV = actualV.getSiguiente();
+            }
+
+        }
+
+        mapa.setVisible(true);
+
+        JFrame frame = new JFrame("Mapa");
+        //frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setSize(1000, 800);
+        frame.add(mapa, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }//GEN-LAST:event_cargarMapaButtonActionPerformed
+
+    private void buttonPedirViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPedirViajeActionPerformed
+        // TODO add your handling code here:
+        //Key[] arreglo = arbolConductores.getRaiz().getLlaves();
+        //NodeLugar lugarDeUsuario = tablaLugares.buscar(metodos.ascii(usuarioActual.getLugarActual()), usuarioActual.getLugarActual()) ;
+        //Usuario conductorCercano = arbolConductores.encontrarUsuarioMasCercano(arbolConductores.getRaiz(), (Usuario) arreglo[0].getValor(), tablaLugares, lugarDeUsuario.getLat(), lugarDeUsuario.getLon());
+
+        //System.out.println("Conductor Mas Cercano: " + conductorCercano.getNombre());
+        panelMainUsuario.setVisible(false);
+        panelPedirViaje.setVisible(true);
+        this.setContentPane(panelPedirViaje);
+
+        String lugares[] = new String[tablaLugares.getCarga()];
+        String categorias[] = new String[tablaLugares.getCarga()];
+
+        tablaLugares.llenarArray(lugares, "lugar");
+        tablaLugares.llenarArray(categorias, "categoria");
+
+        TableModel modelo = jTableLugares.getModel();
+
+        for (int i = 0; i < tablaLugares.getCarga(); i++) {
+            modelo.setValueAt(categorias[i],i, 0);
+            modelo.setValueAt(lugares[i], i, 1);
+        }
+        jTableLugares.setModel(modelo);
+
+    }//GEN-LAST:event_buttonPedirViajeActionPerformed
+
+    private void buttonSalirMainConductor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalirMainConductor1ActionPerformed
+        panelMainUsuario.setVisible(true);
+        panelPedirViaje.setVisible(false);
+        this.setContentPane(panelMainUsuario);// TODO add your handling code here:
+    }//GEN-LAST:event_buttonSalirMainConductor1ActionPerformed
+
+    private void buttonCalcularViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCalcularViajeActionPerformed
+        ShortestPath nuevo = new ShortestPath(tablaLugares.getCarga());
+
+        //Obtenemos lugar Seleccionado
+        int row = jTableLugares.getSelectedRow();
+        String lugarSeleccinado = (String) jTableLugares.getValueAt(row, 1);
+        NodeLugar nodoLugarSeleccinado = tablaLugares.buscar(metodos.ascii(lugarSeleccinado), lugarSeleccinado);
+        int idLugarSeleccionado = nodoLugarSeleccinado.getId();
+        
+        //Obtenemos el lugar del usuario
+        NodeLugar nodoLugarUsuario = tablaLugares.buscar(metodos.ascii(usuarioActual.getLugarActual()), usuarioActual.getLugarActual());
+        int idLugarUsuario = nodoLugarUsuario.getId();
+        
+        //Realizamos el metodo del camino mas corto
+        nuevo.dijkstra(grafo.getMatriz(), tablaLugares.getCarga());
+        ListaEnlazadaArista listaAristas = nuevo.dijkstraArreglo(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado);
+        labelPrecio.setText(String.valueOf(nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado)));
+        
+        //Mostramos el mapa con la distancia mas corta
+        metodos.mostrarMapaRuta(grafo, listaAristas, idLugarUsuario, tablaLugares);
+    }//GEN-LAST:event_buttonCalcularViajeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1011,6 +1330,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonCalcularViaje;
     private javax.swing.JButton buttonCerrarCuenta;
     private javax.swing.JButton buttonCerrarCuenta1;
     private javax.swing.JButton buttonDetallesConductor;
@@ -1022,6 +1342,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonSalirDetallesConductor;
     private javax.swing.JButton buttonSalirDetallesUsuario;
     private javax.swing.JButton buttonSalirMainConductor;
+    private javax.swing.JButton buttonSalirMainConductor1;
     private javax.swing.JButton buttonSalirMainUsuario;
     private javax.swing.JButton cargarConexionesButton;
     private javax.swing.JButton cargarLocalidadesConductores;
@@ -1032,6 +1353,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JButton cargarUsuariosButton;
     private javax.swing.JComboBox<String> comboBoxRoles;
     private javax.swing.JButton ingresarButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1048,6 +1370,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1059,14 +1382,19 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelRegistro;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableLugares;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel labelPrecio;
     private javax.swing.JLabel mensajeBienvenidaUsuario;
     private javax.swing.JLabel mensajeBienvenidaUsuario1;
+    private javax.swing.JLabel mensajeBienvenidaUsuario2;
     private javax.swing.JPanel panelAdmin;
     private javax.swing.JPanel panelDetallesConductor;
     private javax.swing.JPanel panelDetallesUsuario;
     private javax.swing.JPanel panelMainConductor;
     private javax.swing.JPanel panelMainUsuario;
+    private javax.swing.JPanel panelPedirViaje;
     private javax.swing.JButton registrarseButton;
     private javax.swing.JComboBox<String> rolComboBox;
     private javax.swing.JButton salirAdmin;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto.pkg2.Estructura_Grafo;
+package Estructura_Grafo;
 
 /**
  *
@@ -46,7 +46,7 @@ public class ListaEnlazadaVertices {
     }
     
     
-    public void delete(int id){
+    public void delete(String id){
         Vertice actual = getVertice(id);
         
         if(actual != null){
@@ -60,14 +60,14 @@ public class ListaEnlazadaVertices {
         }
     }
     
-    public Vertice getVertice(int id){
+    public Vertice getVertice(String id){
         Vertice actual = this.head;
         
         if(this.head == null){
             return null;
         }
         else while(actual != null){
-            if(id == actual.getNumero()){
+            if(id.equals(actual.getName())){
                 return actual;
             }
             actual = actual.getSiguiente();

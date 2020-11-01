@@ -80,10 +80,8 @@ public class JsonFileOpenerLocalidadesConductores {
         JSONArray jsonArray1 = (JSONArray) this.jsonFile.get("localidades");
         JSONObject jsonArray2 = (JSONObject) jsonArray1.get(index);
         
-        long lugarId = (long) jsonArray2.get("id_lugar");
-        int lugarIdInt = (int) lugarId;
-        lugarNombre = Integer.toString(lugarIdInt);
-
+        lugarNombre = (String) jsonArray2.get("id_lugar");
+        
         return lugarNombre;
     }
 

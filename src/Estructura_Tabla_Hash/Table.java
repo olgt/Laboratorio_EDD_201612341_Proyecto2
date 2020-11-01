@@ -31,6 +31,7 @@ public class Table {
         NodeLugar nuevoNodo = new NodeLugar(id, categoria, nombre, lat, lon);
 
         int pos = posicion(ascii, nombre);
+        System.out.println("Pos " + pos + " Nombre " + nombre);
         this.arreglo[pos] = nuevoNodo;
         this.carga++;
 
@@ -59,7 +60,6 @@ public class Table {
             }
 
         }
-
     }
 
     private int posicion(int clave, String nombre) {
@@ -80,7 +80,7 @@ public class Table {
         NodeLugar buscado = null;
 
         int pos = posicionBuscada(ascii, nombre);
-        System.out.println("Posicion " + pos);
+        System.out.println(" Posicion " + pos);
         if (pos != -1) {
             buscado = this.arreglo[pos];
         }
@@ -92,16 +92,27 @@ public class Table {
         int i = 0, p, vueltas = 0;
 
         p = (int) (ascii % this.size);
+        System.out.println("Aqui " + p);
 
-        for (i = p; i < this.size; i++) {
+        if (arreglo[p] != null && arreglo[p].getNombre().equals(nombre)) {
+            return p;
+        }
+        for (i = p; i < this.size + 1; i++) {
             if (arreglo[i] != null && arreglo[i].getNombre().equals(nombre)) {
                 return i;
             } else if (vueltas > 1) {
                 return -1;
             } else {
-                if (i == this.size - 1 && vueltas < 1) {
-                    i = 0;
+                if (i == this.size && vueltas < 1) {
+                    i = -1;
                     vueltas++;
+                } else if (i == this.size && vueltas == 1) {
+                    if (arreglo[i] != null && arreglo[i].getNombre().equals(nombre)) {
+                        return i;
+                    } else {
+                        return -1;
+
+                    }
                 }
             }
         }
@@ -168,4 +179,36 @@ public class Table {
         }
     }
 
+    public int getSize() {
+        return this.size;
+    }
+
+    public NodeLugar[] getArreglo() {
+        return this.arreglo;
+    }
+
+    public int getCarga() {
+        return this.carga;
+    }
+
+    public String[] llenarArray(String[] arrayVacio, String especificacion) {
+        int j = 0;
+
+        if (especificacion.equals("lugar")) {
+            for (int i = 0; i < this.arreglo.length; i++) {
+                if (arreglo[i] != null) {
+                    arrayVacio[j] = this.arreglo[i].getNombre();
+                    j++;
+                }
+            }
+        } else if (especificacion.equals("categoria")) {
+            for (int i = 0; i < this.arreglo.length; i++) {
+                if (arreglo[i] != null) {
+                    arrayVacio[j] = this.arreglo[i].getCategoria();
+                    j++;
+                }
+            }
+        }
+        return arrayVacio;
+    }
 }

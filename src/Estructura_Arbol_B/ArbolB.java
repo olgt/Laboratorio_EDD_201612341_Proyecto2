@@ -5,8 +5,12 @@
  */
 package Estructura_Arbol_B;
 
+import Estructura_Tabla_Hash.NodeLugar;
+import Estructura_Tabla_Hash.Table;
 import java.io.FileWriter;
 import java.io.IOException;
+import Utilities.Metodos;
+import static java.lang.Math.abs;
 
 /**
  *
@@ -253,6 +257,48 @@ public class ArbolB<T extends Comparable<T>, V> {
         return actual;
     }
 
+    public Usuario encontrarUsuarioMasCercano(Page pagina, Usuario conductorActual, Table tablaHashLugares, double lat, double lon) {
+
+        Metodos metodos = new Metodos();
+        Usuario conductorTemp = null;
+        
+        NodeLugar lugarConductorActual = tablaHashLugares.buscar(metodos.ascii(conductorActual.getLugarActual()), conductorActual.getLugarActual());
+
+        double diferenciaActualLat = abs(lat - lugarConductorActual.getLat());
+        double diferenciaActualLon = abs(lon - lugarConductorActual.getLon());
+        double distanciaActualAUsuario = Math.sqrt((diferenciaActualLat * diferenciaActualLat) + (diferenciaActualLon * diferenciaActualLon));
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+            if (llaveActual != null){
+                conductorTemp = (Usuario) llaveActual.getValor();
+                String lugarNombreConductorTemp = conductorTemp.getLugarActual();
+                boolean disponible = conductorTemp.getDisponible();
+
+                NodeLugar lugarConductorTemp = tablaHashLugares.buscar(metodos.ascii(lugarNombreConductorTemp), lugarNombreConductorTemp);
+                double diferenciaTempLat = abs(lat - lugarConductorTemp.getLat());
+                double diferenciaTemplLon = abs(lon - lugarConductorTemp.getLon());
+                double distanciaTempAUsuario = Math.sqrt((diferenciaTempLat * diferenciaTempLat) + (diferenciaTemplLon * diferenciaTemplLon));
+
+                if (conductorActual == null){
+                    conductorActual = conductorTemp;
+                }if (disponible && distanciaActualAUsuario < distanciaTempAUsuario) {
+                    conductorActual = conductorTemp;
+                }if (llaveActual.getDerecha() != null){
+                    conductorActual = encontrarUsuarioMasCercano(llaveActual.getDerecha(), conductorActual, tablaHashLugares, lat, lon);
+                }if (llaveActual.getIzquierda() != null) {
+                    conductorActual = encontrarUsuarioMasCercano(llaveActual.getIzquierda(), conductorActual, tablaHashLugares, lat, lon);
+                }
+            }
+        }
+
+        return conductorActual;
+
+    }
+
     private int colocarNodo(Page node, Key newKey) {
         int index = -1;
         for (int i = 0; i < k; i++) {
@@ -329,8 +375,8 @@ public class ArbolB<T extends Comparable<T>, V> {
 
         for (int i = 0; i < k; i++) {
             Key llaveActual = llaves[i];
-            Key llaveSiguiente=null;
-            
+            Key llaveSiguiente = null;
+
             if (i != k - 1) {
                 llaveSiguiente = llaves[i + 1];
             }

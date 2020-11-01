@@ -9,7 +9,7 @@ package Estructura_Arbol_B;
  *
  * @author Oscar
  */
-class Page {
+public class Page {
     private int max;
     private Page paginaPadre;
     private Key[] llaves;

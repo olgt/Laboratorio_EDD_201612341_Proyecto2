@@ -1,24 +1,38 @@
 {
   "Grafo":[
-    { "inicio":1,
-      "final":2,
+    { "inicio":"Plaza Villa Nueva",
+      "final":"Gasolinera puma quetzal",
       "peso":3,
       "unidad":"KM",
       "precio": 35,
       "moneda":"Quetzales"
     },
-    { "inicio":1,
-      "final":3,
+    { "inicio":"T-3",
+      "final":"Gasolinera puma quetzal",
       "peso":10,
       "unidad":"KM",
       "precio": 110,
       "moneda":"Quetzales"
     },
-    { "inicio":2,
-      "final":3,
+    { "inicio":"Plaza Villa Nueva",
+      "final":"Gasolinera puma quetzal",
       "peso":5,
       "unidad":"KM",
       "precio": 50,
+      "moneda":"Quetzales"
+    },
+    { "inicio":"Home",
+      "final":"Ay Carmela",
+      "peso":1,
+      "unidad":"KM",
+      "precio": 20,
+      "moneda":"Quetzales"
+    },
+    { "inicio":"Ay Carmela",
+      "final":"Gasolinera puma quetzal",
+      "peso":4,
+      "unidad":"KM",
+      "precio": 60,
       "moneda":"Quetzales"
     }
   ]
