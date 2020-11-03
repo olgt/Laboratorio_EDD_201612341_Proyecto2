@@ -10,6 +10,7 @@ package Estructura_Arbol_B;
  * @author Oscar
  */
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Factura{
@@ -17,8 +18,19 @@ public class Factura{
     private int id_usuario;
     private int id_conductor;
     private int id_viaje;
-    private Date fecha;
+    private LocalDate fecha;
     private double monto;
+
+    public Factura(int id, int id_usuario, int id_conductor, int id_viaje, LocalDate fecha, double monto) {
+        this.id = id;
+        this.id_usuario = id_usuario;
+        this.id_conductor = id_conductor;
+        this.id_viaje = id_viaje;
+        this.fecha = fecha;
+        this.monto = monto;
+    }
+    
+    
 
     /**
      * @return the id
@@ -79,14 +91,14 @@ public class Factura{
     /**
      * @return the fecha
      */
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
     /**
      * @param fecha the fecha to set
      */
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

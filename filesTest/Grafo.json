@@ -14,7 +14,7 @@
       "precio": 110,
       "moneda":"Quetzales"
     },
-    { "inicio":"Plaza Villa Nueva",
+    { "inicio":"Home",
       "final":"Gasolinera puma quetzal",
       "peso":5,
       "unidad":"KM",

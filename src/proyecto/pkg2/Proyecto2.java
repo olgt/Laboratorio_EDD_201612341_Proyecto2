@@ -169,7 +169,7 @@ public class Proyecto2 {
             arbol.insertar(i, nuevo);
         }
 
-        System.out.println(arbol.getLastIndex(arbol.getRaiz()));
+        System.out.println(arbol.getLastIndexUsuario(arbol.getRaiz()));
          */
         //arbol.graficarArbol("test");
         //arbol.imprimirArbol(arbol.getRaiz(), 1);

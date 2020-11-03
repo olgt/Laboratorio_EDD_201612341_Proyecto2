@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.TableModel;
 
@@ -44,6 +45,8 @@ public class PrincipalFrame extends javax.swing.JFrame {
     Usuario usuarioActual = null;
     String apiKey = "AIzaSyAQIa8L5-4XCFJbFkKwlHoPu-7psnrEdJo";
     String apiKeyPrestada = "AIzaSyAR-xSrf5bYghVZDdfQ1F0Yk3nWpyViyig";
+
+    String archivoConexiones, archivoLugares, archivoUsuarios, archivoLocalidadesUsuario, archivoLocalidadesConductores;
 
     public PrincipalFrame() {
         initComponents();
@@ -84,6 +87,10 @@ public class PrincipalFrame extends javax.swing.JFrame {
         buttonModificarInfoUsuario = new javax.swing.JButton();
         buttonCerrarCuenta = new javax.swing.JButton();
         buttonSalirDetallesUsuario = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaViajesUsuario = new javax.swing.JTable();
+        jLabel25 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         panelMainUsuario = new javax.swing.JPanel();
         buttonPedirViaje = new javax.swing.JButton();
         buttonDetallesUsuario = new javax.swing.JButton();
@@ -117,6 +124,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         buttonCalcularViaje = new javax.swing.JButton();
         labelPrecio = new javax.swing.JLabel();
+        panelFactura = new javax.swing.JPanel();
+        buttonSalirFactura = new javax.swing.JButton();
+        mensajeBienvenidaUsuario3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableFactura = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -185,6 +197,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
         });
 
         cargarReportesButton.setText("Cargar Reportes");
+        cargarReportesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarReportesButtonActionPerformed(evt);
+            }
+        });
 
         cargarMapaButton.setText("Cargar Mapa");
         cargarMapaButton.addActionListener(new java.awt.event.ActionListener() {
@@ -274,11 +291,44 @@ public class PrincipalFrame extends javax.swing.JFrame {
             }
         });
 
+        tablaViajesUsuario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "No", "Fecha"
+            }
+        ));
+        jScrollPane4.setViewportView(tablaViajesUsuario);
+
+        jLabel25.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setText("Viajes");
+
+        jButton2.setText("Seleccionar Viaje");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelDetallesUsuarioLayout = new javax.swing.GroupLayout(panelDetallesUsuario);
         panelDetallesUsuario.setLayout(panelDetallesUsuarioLayout);
         panelDetallesUsuarioLayout.setHorizontalGroup(
             panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDetallesUsuarioLayout.createSequentialGroup()
                 .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
                         .addContainerGap()
@@ -297,50 +347,69 @@ public class PrincipalFrame extends javax.swing.JFrame {
                                     .addComponent(textFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(textFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(textFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(buttonModificarInfoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(buttonCerrarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(buttonModificarInfoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(buttonCerrarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(buttonSalirDetallesUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(471, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDetallesUsuarioLayout.createSequentialGroup()
+                        .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(63, 63, 63))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDetallesUsuarioLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(137, 137, 137))))
         );
         panelDetallesUsuarioLayout.setVerticalGroup(
             panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(131, 131, 131)
-                .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(textFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(textFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(textFieldCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(textFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
-                .addComponent(buttonModificarInfoUsuario)
-                .addGap(18, 18, 18)
-                .addComponent(buttonCerrarCuenta)
-                .addGap(18, 18, 18)
-                .addComponent(buttonSalirDetallesUsuario)
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDetallesUsuarioLayout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(textFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(textFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(textFieldCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelDetallesUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(textFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(52, 52, 52)
+                        .addComponent(buttonModificarInfoUsuario)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonCerrarCuenta)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonSalirDetallesUsuario)
+                        .addContainerGap(105, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDetallesUsuarioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel25)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(247, 247, 247))))
         );
 
         panelMainUsuario.setBackground(new java.awt.Color(204, 255, 204));
@@ -649,15 +718,96 @@ public class PrincipalFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(buttonCalcularViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel24)
-                    .addComponent(labelPrecio)
+                .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPedirViajeLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel24)
+                        .addComponent(labelPrecio)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonSalirMainConductor1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
+        );
+
+        panelFactura.setBackground(new java.awt.Color(204, 255, 204));
+        panelFactura.setForeground(new java.awt.Color(51, 0, 51));
+        panelFactura.setPreferredSize(new java.awt.Dimension(734, 730));
+
+        buttonSalirFactura.setText("Volver a");
+        buttonSalirFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSalirFacturaActionPerformed(evt);
+            }
+        });
+
+        mensajeBienvenidaUsuario3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        mensajeBienvenidaUsuario3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        mensajeBienvenidaUsuario3.setText("Factura");
+
+        jTableFactura.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Categoria", "Valor"
+            }
+        ));
+        jTableFactura.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jTableFactura);
+
+        javax.swing.GroupLayout panelFacturaLayout = new javax.swing.GroupLayout(panelFactura);
+        panelFactura.setLayout(panelFacturaLayout);
+        panelFacturaLayout.setHorizontalGroup(
+            panelFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFacturaLayout.createSequentialGroup()
+                .addGroup(panelFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFacturaLayout.createSequentialGroup()
+                        .addGap(135, 135, 135)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelFacturaLayout.createSequentialGroup()
+                        .addGap(202, 202, 202)
+                        .addComponent(mensajeBienvenidaUsuario3, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(126, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturaLayout.createSequentialGroup()
+                .addContainerGap(51, Short.MAX_VALUE)
+                .addComponent(buttonSalirFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(466, 466, 466))
+        );
+        panelFacturaLayout.setVerticalGroup(
+            panelFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFacturaLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(mensajeBienvenidaUsuario3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+                .addComponent(buttonSalirFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43))
         );
 
@@ -1051,10 +1201,14 @@ public class PrincipalFrame extends javax.swing.JFrame {
         textFieldNombre.setText(usuarioActual.getNombre());
         textFieldTelefono.setText(usuarioActual.getTelefono());
 
+        Contador contador = new Contador();
+        ModeloTabla modelo = new ModeloTabla();
+        modelo.setModelo(tablaViajesUsuario.getModel());
+        
+        TableModel modeloNuevo = metodos.llenarJTable(modelo, usuarioActual.getViajes().getRaiz(), 5, contador);
+        tablaViajesUsuario.setModel(modeloNuevo);
         this.setContentPane(panelDetallesUsuario);
-        this.repaint();
-
-
+        this.repaint();        
     }//GEN-LAST:event_buttonDetallesUsuarioActionPerformed
 
     private void buttonSalirDetallesUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalirDetallesUsuarioActionPerformed
@@ -1112,8 +1266,8 @@ public class PrincipalFrame extends javax.swing.JFrame {
 
     private void buttonRegistrarNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarNuevoUsuarioActionPerformed
         // TODO add your handling code here:
-        int lastIdUsuario = arbolUsuarios.getLastIndex(arbolUsuarios.getRaiz());
-        int lastIdConductor = arbolConductores.getLastIndex(arbolConductores.getRaiz());
+        int lastIdUsuario = arbolUsuarios.getLastIndexUsuario(arbolUsuarios.getRaiz());
+        int lastIdConductor = arbolConductores.getLastIndexUsuario(arbolConductores.getRaiz());
 
         String rolSeleccionado = (String) rolComboBox.getSelectedItem();
         String passwordEncrypted = Hashing.sha256().hashString(textFieldNuevoContraseña.getText(), StandardCharsets.UTF_8).toString();
@@ -1177,7 +1331,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cargarConexionesButtonActionPerformed
 
     private void cargarMapaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarMapaButtonActionPerformed
-        
+
         NodeLugar[] arreglo = tablaLugares.getArreglo();
 
         MapViewOptions opciones = new MapViewOptions();
@@ -1216,7 +1370,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
                     LatLng latlong1 = new LatLng(verticeInicio.getLatitud(), verticeInicio.getLongitud());
                     LatLng latlong2 = new LatLng(verticeFinal.getLatitud(), verticeFinal.getLongitud());
 
-                    mapa.agregarLinea(latlong1, latlong2, true);
+                    mapa.agregarLinea(latlong1, latlong2, false);
                     actualA = actualA.getSiguiente();
                 }
                 actualV = actualV.getSiguiente();
@@ -1251,10 +1405,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
         tablaLugares.llenarArray(lugares, "lugar");
         tablaLugares.llenarArray(categorias, "categoria");
 
+        //Tabla Lugares Disponibles
         TableModel modelo = jTableLugares.getModel();
 
         for (int i = 0; i < tablaLugares.getCarga(); i++) {
-            modelo.setValueAt(categorias[i],i, 0);
+            modelo.setValueAt(categorias[i], i, 0);
             modelo.setValueAt(lugares[i], i, 1);
         }
         jTableLugares.setModel(modelo);
@@ -1275,23 +1430,111 @@ public class PrincipalFrame extends javax.swing.JFrame {
         String lugarSeleccinado = (String) jTableLugares.getValueAt(row, 1);
         NodeLugar nodoLugarSeleccinado = tablaLugares.buscar(metodos.ascii(lugarSeleccinado), lugarSeleccinado);
         int idLugarSeleccionado = nodoLugarSeleccinado.getId();
-        
+
         //Obtenemos el lugar del usuario
         NodeLugar nodoLugarUsuario = tablaLugares.buscar(metodos.ascii(usuarioActual.getLugarActual()), usuarioActual.getLugarActual());
         int idLugarUsuario = nodoLugarUsuario.getId();
-        
+
         //Realizamos el metodo del camino mas corto
         nuevo.dijkstra(grafo.getMatriz(), tablaLugares.getCarga());
         ListaEnlazadaArista listaAristas = nuevo.dijkstraArreglo(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado);
         labelPrecio.setText(String.valueOf(nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado)));
-        
+        labelPrecio.repaint();
+
         //Mostramos el mapa con la distancia mas corta
-        metodos.mostrarMapaRuta(grafo, listaAristas, idLugarUsuario, tablaLugares);
+        metodos.mostrarMapaRuta(grafo, listaAristas, lugarSeleccinado, tablaLugares);
+
     }//GEN-LAST:event_buttonCalcularViajeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        ShortestPath nuevo = new ShortestPath(tablaLugares.getCarga());
+
+        //Obtenemos lugar Seleccionado
+        int row = jTableLugares.getSelectedRow();
+        String lugarSeleccinado = (String) jTableLugares.getValueAt(row, 1);
+        NodeLugar nodoLugarSeleccinado = tablaLugares.buscar(metodos.ascii(lugarSeleccinado), lugarSeleccinado);
+        int idLugarSeleccionado = nodoLugarSeleccinado.getId();
+
+        //Obtenemos el lugar del usuario
+        NodeLugar nodoLugarUsuario = tablaLugares.buscar(metodos.ascii(usuarioActual.getLugarActual()), usuarioActual.getLugarActual());
+        int idLugarUsuario = nodoLugarUsuario.getId();
+
+        //Realizamos el metodo del camino mas corto
+        Double precio = (nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado));
+
+        nuevo.dijkstra(grafo.getMatriz(), tablaLugares.getCarga());
+        ListaEnlazadaArista listaAristas = nuevo.dijkstraArreglo(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado);
+        labelPrecio.setText(String.valueOf(precio));
+        labelPrecio.repaint();
+
+        //Agregamos el dato al arbol de viajes del usuario
+        ArbolB arbolDeViajes = usuarioActual.getViajes();
+        int idNuevoViaje = arbolDeViajes.getLastIndexViaje(arbolDeViajes.getRaiz()) + 1;
+
+        Viaje nuevoViaje = new Viaje(idNuevoViaje, usuarioActual.getLugarActual(), lugarSeleccinado, java.time.LocalDate.now());
+        arbolDeViajes.insertar(idNuevoViaje, nuevoViaje);
+        System.out.println("Viaje Agregado");
+
+        //Agregamos la factura al arbol de Facturas del usuario
+        ArbolB arbolDeFacturas = usuarioActual.getFacturas();
+
+        //    public Factura(int id, int id_usuario, int id_conductor, int id_viaje, LocalDate fecha, double monto)
+        Factura nuevaFactura = new Factura(arbolDeFacturas.getLastIndexFactura(arbolDeFacturas.getRaiz()) + 1, usuarioActual.getId(), 0, idNuevoViaje, java.time.LocalDate.now(), precio);
+        System.out.println("Factura Agregada");
+
+        //Llenamos tabla Factura
+        llenarTableFacturas(jTableFactura, nuevaFactura);
+        panelFactura.setVisible(true);
+        this.setContentPane(panelFactura);
+        
+        buttonSalirFactura.setText("Volver a Pedir Viaje");
+        panelPedirViaje.setVisible(false);
+        
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void llenarTableFacturas(JTable tabla, Factura nuevaFactura){
+        TableModel modelo = tabla.getModel();
+        Usuario usuario = arbolUsuarios.encontrarUsuarioJson(nuevaFactura.getId_usuario(), arbolUsuarios.getRaiz());
+        Usuario conductor;
+        
+        modelo.setValueAt(usuario.getNombre(), 0, 1);
+        modelo.setValueAt(nuevaFactura.getId_conductor(), 1, 1);
+        modelo.setValueAt(nuevaFactura.getFecha(), 2, 1);
+        modelo.setValueAt(nuevaFactura.getMonto(), 3, 1);
+
+        modelo.setValueAt("Usuario", 0, 0);
+        modelo.setValueAt("Conductor", 1, 0);
+        modelo.setValueAt("Fecha", 2, 0);
+        modelo.setValueAt("Monto", 3, 0);
+        
+        
+        jTableFactura.setModel(modelo);
+
+
+    }
+    
+    private void cargarReportesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarReportesButtonActionPerformed
+        // TODO add your handling code here:
+        arbolConductores.graficarArbol("ArbolConductores");
+        arbolUsuarios.graficarArbol("ArbolUsuarios");
+        tablaLugares.graficar("Lugares");
+
+    }//GEN-LAST:event_cargarReportesButtonActionPerformed
+
+    private void buttonSalirFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalirFacturaActionPerformed
+        // TODO add your handling code here:
+        panelFactura.setVisible(false);
+        String textoSalirFactura = buttonSalirFactura.getText();
+        if(textoSalirFactura.endsWith("Volver a Pedir Viaje")){
+            panelPedirViaje.setVisible(true);
+            this.setContentPane(panelPedirViaje);
+        }
+    }//GEN-LAST:event_buttonSalirFacturaActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1341,6 +1584,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonRegistrarNuevoUsuario;
     private javax.swing.JButton buttonSalirDetallesConductor;
     private javax.swing.JButton buttonSalirDetallesUsuario;
+    private javax.swing.JButton buttonSalirFactura;
     private javax.swing.JButton buttonSalirMainConductor;
     private javax.swing.JButton buttonSalirMainConductor1;
     private javax.swing.JButton buttonSalirMainUsuario;
@@ -1354,6 +1598,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxRoles;
     private javax.swing.JButton ingresarButton;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1371,6 +1616,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1383,21 +1629,27 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTableFactura;
     private javax.swing.JTable jTableLugares;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel labelPrecio;
     private javax.swing.JLabel mensajeBienvenidaUsuario;
     private javax.swing.JLabel mensajeBienvenidaUsuario1;
     private javax.swing.JLabel mensajeBienvenidaUsuario2;
+    private javax.swing.JLabel mensajeBienvenidaUsuario3;
     private javax.swing.JPanel panelAdmin;
     private javax.swing.JPanel panelDetallesConductor;
     private javax.swing.JPanel panelDetallesUsuario;
+    private javax.swing.JPanel panelFactura;
     private javax.swing.JPanel panelMainConductor;
     private javax.swing.JPanel panelMainUsuario;
     private javax.swing.JPanel panelPedirViaje;
     private javax.swing.JButton registrarseButton;
     private javax.swing.JComboBox<String> rolComboBox;
     private javax.swing.JButton salirAdmin;
+    private javax.swing.JTable tablaViajesUsuario;
     private javax.swing.JTextField textFieldCorreo;
     private javax.swing.JTextField textFieldCorreo1;
     private javax.swing.JTextField textFieldNombre;

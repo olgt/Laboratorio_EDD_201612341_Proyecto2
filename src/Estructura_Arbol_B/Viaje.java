@@ -5,6 +5,7 @@
  */
 package Estructura_Arbol_B;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -16,7 +17,14 @@ public class Viaje {
     private int id;
     private String nombreInicio;
     private String nombreFinal;
-    private Date fecha;
+    private LocalDate fecha;
+    
+    public Viaje(int id, String nombreInicio, String nombreFinal, LocalDate fecha){
+        this.fecha = fecha;
+        this.id = id;
+        this.nombreFinal = nombreFinal;
+        this.nombreInicio = nombreInicio;
+    }
 
 
     /**
@@ -64,14 +72,14 @@ public class Viaje {
     /**
      * @return the fecha
      */
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
     /**
      * @param fecha the fecha to set
      */
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }    
 

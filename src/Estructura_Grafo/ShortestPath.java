@@ -48,11 +48,8 @@ public class ShortestPath {
         return cost[idVertice];
     }
 
-    // Function that implements Dijkstra's single source shortest path 
-    // algorithm for a graph represented using adjacency matrix 
-    // representation 
     public void dijkstra(NodoArista graph[][], int src) {
-        double dist[] = new double[V+1]; // The output array. dist[i] will hold 
+        double dist[] = new double[V + 1]; // The output array. dist[i] will hold 
         // the shortest distance from src to i 
 
         // sptSet[i] will true if vertex i is included in shortest 
@@ -96,55 +93,9 @@ public class ShortestPath {
     }
 
     public double dijkstraCosto(NodoArista graph[][], int src, int idVertice) {
-        double costo[] = new double[V+1]; // The output array. dist[i] will hold 
-        // the shortest distance from src to i 
-        
-        // sptSet[i] will true if vertex i is included in shortest 
-        // path tree or shortest distance from src to i is finalized 
+        double costo[] = new double[V + 1];  
+
         Boolean sptSet[] = new Boolean[V];
-
-        // Initialize all distances as INFINITE and stpSet[] as false 
-        for (int i = 0; i < V; i++) {
-            costo[i] = Integer.MAX_VALUE;
-            sptSet[i] = false;
-        }
-
-        // Distance of source vertex from itself is always 0 
-        costo[src] = 0;
-
-        // Find shortest path for all vertices 
-        for (int count = 0; count < V - 1; count++) {
-            // Pick the minimum distance vertex from the set of vertices 
-            // not yet processed. u is always equal to src in first 
-            // iteration. 
-            int u = (int) minDistance(costo, sptSet);
-
-            // Mark the picked vertex as processed 
-            sptSet[u] = true;
-
-            // Update dist value of the adjacent vertices of the 
-            // picked vertex. 
-            for (int v = 0; v < V; v++) // Update dist[v] only if is not in sptSet, there is an 
-            // edge from u to v, and total weight of path from src to 
-            // v through u is smaller than current value of dist[v] 
-            {
-                if (!sptSet[v] && graph[u][v].getPeso() != -1
-                        && costo[u] != Integer.MAX_VALUE && costo[u] + graph[u][v].getPeso() < costo[v]) {
-                    costo[v] = costo[u] + graph[u][v].getPrecio();
-                }
-            }
-        }
-
-        // print the constructed distance array 
-        printSolution(costo, V);
-        return getCostFromVertex(costo, idVertice);
-    }
-    
-    
-    public ListaEnlazadaArista dijkstraArreglo(NodoArista graph[][], int src, int idVertice) {
-        double costo[] = new double[V];  
-        Boolean sptSet[] = new Boolean[V];
-        ListaEnlazadaArista listaArista = new ListaEnlazadaArista();
 
         for (int i = 0; i < V; i++) {
             costo[i] = Integer.MAX_VALUE;
@@ -161,15 +112,55 @@ public class ShortestPath {
 
             for (int v = 0; v < V; v++) 
             {
-                if (!sptSet[v] && graph[u][v].getPeso() != -1 && costo[u] != Integer.MAX_VALUE && costo[u] + graph[u][v].getPeso() < costo[v]) {
+                if (!sptSet[v] && graph[u][v].getPeso() != -1
+                        && costo[u] != Integer.MAX_VALUE && costo[u] + graph[u][v].getPeso() < costo[v]) {
                     costo[v] = costo[u] + graph[u][v].getPrecio();
-                    NodoArista nodoNuevaLista = new NodoArista(graph[u][v].getId(), graph[u][v].getVerticeA(), graph[u][v].getVerticeB(), graph[u][v].getPrecio(), graph[u][v].getPeso(),
-                            graph[u][v].getMoneda(), graph[u][v].getUnidad());
-                            listaArista.add(nodoNuevaLista);
+                }
+            }
+        }
+
+        // print the constructed distance array 
+        printSolution(costo, V);
+        return getCostFromVertex(costo, idVertice);
+    }
+
+    public ListaEnlazadaArista dijkstraArreglo(NodoArista graph[][], int src, int idVertice) {
+        double costo[] = new double[V];
+        Boolean sptSet[] = new Boolean[V];
+        ListaEnlazadaArista listaArista = new ListaEnlazadaArista();
+
+        for (int i = 0; i < V; i++) {
+            costo[i] = Integer.MAX_VALUE;
+            sptSet[i] = false;
+        }
+
+        costo[src] = 0;
+
+        for (int count = 0; count < V - 1; count++) {
+
+            int u = (int) minDistance(costo, sptSet);
+
+            sptSet[u] = true;
+
+            for (int v = 0; v < V; v++) {
+                if (!sptSet[v] && graph[u][v].getPeso() != -1 && costo[u] != Integer.MAX_VALUE && costo[u] + graph[u][v].getPrecio()< costo[v]) {
+
+                    int id = graph[u][v].getId();
+                    String verticeInicio = graph[u][v].getVerticeA();
+                    String verticeFinal = graph[u][v].getVerticeB();
+                    double precio = graph[u][v].getPrecio();
+                    double peso = graph[u][v].getPeso();
+                    String moneda = graph[u][v].getMoneda();
+                    String unidad = graph[u][v].getUnidad();
+
+                    costo[v] = costo[u] + graph[u][v].getPrecio();
+
+                    NodoArista nodoNuevaLista = new NodoArista(id, verticeInicio, verticeFinal, precio, (int) peso, moneda, unidad);
+                    listaArista.add(nodoNuevaLista);
                 }
             }
         }
 
         return listaArista;
     }
-} 
+}

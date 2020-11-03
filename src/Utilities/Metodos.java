@@ -17,7 +17,10 @@ import GoogleMap.Mapa;
 import com.teamdev.jxmaps.LatLng;
 import com.teamdev.jxmaps.MapViewOptions;
 import java.awt.BorderLayout;
+import java.time.LocalDate;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -36,7 +39,7 @@ public class Metodos {
         return valorAscii;
     }
 
-    public void mostrarMapaRuta(Grafo grafo, ListaEnlazadaArista listaAristas, int idLugarInicio, Table tablaHash) {
+    public void mostrarMapaRuta(Grafo grafo, ListaEnlazadaArista listaAristas, String idLugarInicio, Table tablaHash) {
         String apiKey = "AIzaSyAQIa8L5-4XCFJbFkKwlHoPu-7psnrEdJo";
         String apiKeyPrestada = "AIzaSyAR-xSrf5bYghVZDdfQ1F0Yk3nWpyViyig";
 
@@ -47,7 +50,12 @@ public class Metodos {
         Mapa mapa = new Mapa(opciones);
         mapa.esperar();
 
+        ListaEnlazadaArista listaVacia = null;
+//        ListaEnlazadaArista listaCompleta, ListaEnlazadaArista listaVacia, NodoArista cabeza, String idDestino, String idComienzo, boolean encontrado, NodoArista parent)
+
+        Foo testBooleano = new Foo();
         NodoArista actual = listaAristas.getHead();
+        //NodoArista actual = getCamino(listaAristas, listaVacia, null, idLugarInicio, idLugarInicio, testBooleano, null).getHead();
 
         String arregloVertices[] = new String[listaAristas.getSize() + 1];
         LatLng arregloLongitudes[] = new LatLng[arregloVertices.length];
@@ -105,4 +113,71 @@ public class Metodos {
         frame.setVisible(true);
     }
 
+    public ListaEnlazadaArista getCamino(ListaEnlazadaArista listaCompleta, ListaEnlazadaArista listaVacia, NodoArista cabeza,
+            String idDestino, String idComienzo, Foo encontrado, NodoArista parent) {
+
+        NodoArista actual = listaCompleta.getHead();
+
+        while (actual != null) {
+
+            if (actual.getVerticeA().equals(idComienzo) && actual != parent) {
+                if (actual.getVerticeB().equals(idDestino)) {
+                    listaVacia.add(actual);
+                    encontrado.is = true;
+                    return listaVacia;
+                } else {
+                    getCamino(listaCompleta, listaVacia, actual, idDestino, actual.getVerticeA(), encontrado, actual);
+                }
+            }
+            getCamino(listaCompleta, listaVacia, actual, idDestino, actual.getVerticeB(), encontrado, actual);
+
+            if (encontrado.is == false) {
+                actual = actual.getSiguiente();
+            } else {
+                listaVacia.add(actual);
+            }
+        }
+
+        return listaVacia;
+    }
+
+    public TableModel llenarJTable(ModeloTabla modelo, Page pagina, int k, Contador contador) {
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        Viaje viajeActual;
+        
+        Key llaveActual = llaves[0];
+        
+        if (llaveActual != null) {
+                viajeActual = (Viaje) llaveActual.getValor();
+                int idViaje = viajeActual.getId();
+                LocalDate fechaViaje = viajeActual.getFecha();
+                
+                if (llaveActual.getIzquierda() != null) {
+                    llenarJTable(modelo, llaveActual.getIzquierda(), k, contador);
+                }
+                
+        }
+        
+
+        for (int i = 0; i < k; i++) {
+            llaveActual = llaves[i];
+
+            if (llaveActual != null) {
+                viajeActual = (Viaje) llaveActual.getValor();
+                int idViaje = viajeActual.getId();
+                LocalDate fechaViaje = viajeActual.getFecha();
+
+                modelo.getModel().setValueAt(idViaje, contador.getI(), 0);
+                modelo.getModel().setValueAt(fechaViaje, contador.getI(), 1);
+                contador.agregar();
+
+                if (llaveActual.getDerecha() != null) {
+                    llenarJTable(modelo, llaveActual.getDerecha(), k, contador);
+                }
+            }
+        }
+        return modelo.getModel();
+    }
 }

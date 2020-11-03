@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import Utilities.Metodos;
 import static java.lang.Math.abs;
+import javax.swing.JTable;
 
 /**
  *
@@ -328,16 +329,6 @@ public class ArbolB<T extends Comparable<T>, V> {
         return index;
     }
 
-    public void imprimirArbol(Page pagina, int numeroPagina) {
-        Key[] llaves = pagina.getLlaves();
-
-        for (int i = 0; i < 5; i++) {
-            if (llaves[i] != null) {
-                System.out.println(llaves[i].getValor());
-            }
-        }
-    }
-
     public void graficarArbol(String nombre) {
         this.numeroNodo = 0;
         int numeroPagina = this.numeroNodo;
@@ -366,7 +357,7 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
     }
 
-    public int getLastIndex(Page pagina) {
+    public int getLastIndexUsuario(Page pagina){
         int lastIndex = 0;
         Usuario actual;
 
@@ -385,7 +376,7 @@ public class ArbolB<T extends Comparable<T>, V> {
                 actual = (Usuario) llaveActual.getValor();
                 lastIndex = actual.getId();
                 if (llaveActual.getDerecha() != null) {
-                    lastIndex = getLastIndex(llaveActual.getDerecha());
+                    lastIndex = getLastIndexUsuario(llaveActual.getDerecha());
                     return lastIndex;
                 }
             }
@@ -393,6 +384,60 @@ public class ArbolB<T extends Comparable<T>, V> {
         return lastIndex;
     }
 
+    public int getLastIndexViaje(Page pagina){
+        int lastIndex = 0;
+        Viaje actual;
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+            Key llaveSiguiente = null;
+
+            if (i != k - 1) {
+                llaveSiguiente = llaves[i + 1];
+            }
+
+            if ((llaveSiguiente == null || i == k - 1) && llaveActual != null) {
+                actual = (Viaje) llaveActual.getValor();
+                lastIndex = actual.getId();
+                if (llaveActual.getDerecha() != null) {
+                    lastIndex = getLastIndexViaje(llaveActual.getDerecha());
+                    return lastIndex;
+                }
+            }
+        }
+        return lastIndex;
+    }
+    
+    public int getLastIndexFactura(Page pagina){
+        int lastIndex = 0;
+        Usuario actual;
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+            Key llaveSiguiente = null;
+
+            if (i != k - 1) {
+                llaveSiguiente = llaves[i + 1];
+            }
+
+            if ((llaveSiguiente == null || i == k - 1) && llaveActual != null) {
+                actual = (Usuario) llaveActual.getValor();
+                lastIndex = actual.getId();
+                if (llaveActual.getDerecha() != null) {
+                    lastIndex = getLastIndexFactura(llaveActual.getDerecha());
+                    return lastIndex;
+                }
+            }
+        }
+        return lastIndex;
+    }
+    
     private void graficarPaginas(FileWriter myWriter, Page pagina, int numeroPagina) {
 
         Page paginaActual = pagina;
@@ -505,5 +550,6 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
         return codigo;
     }
+
 
 }

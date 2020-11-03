@@ -4,16 +4,6 @@
  * and open the template in the editor.
  */
 package Estructura_Arbol_B;
-/*
-{
-	 "id":1,
-	 "nombre":"Clark Ken",
-	 "usuario":"superman",
-	 "correo":"superman@gmail.com",
-	 "pass":"superman",
-	 "telefono":"20201921",
-	 "rol":"normal"
-  }*/
 
 public class Usuario {
 
@@ -26,6 +16,9 @@ public class Usuario {
     private String rol;
     private String lugarActual;
     private boolean disponible;
+    private ArbolB viajes;
+    private ArbolB facturas;
+
     
     public Usuario(int id, String nombre, String usuario, String correo, String contraseña, String telefono, String rol) {
         this.id = id;
@@ -36,8 +29,17 @@ public class Usuario {
         this.telefono = telefono;
         this.rol = rol;
         this.disponible = true;
+        viajes = new ArbolB(5);
+        facturas = new ArbolB(5);
     }
-            
+    
+    public ArbolB getFacturas(){
+        return this.facturas;
+    }            
+    
+    public ArbolB getViajes(){
+        return this.viajes;
+    }            
         /**
      * @return the lugarActual
      */

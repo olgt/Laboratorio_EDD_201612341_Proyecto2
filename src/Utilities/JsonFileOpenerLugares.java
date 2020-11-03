@@ -113,7 +113,6 @@ public class JsonFileOpenerLugares {
             NodeLugar actual = new NodeLugar((int) lugarGetId(i), lugarGetCategoria(i), lugarGetNombre(i), lugarGetLatitud(i), lugarGetLongitud(i));
             grafo.addVertice((int) lugarGetId(i), lugarGetCategoria(i), lugarGetNombre(i), lugarGetLatitud(i), lugarGetLongitud(i));
             
-            
             tabla.insertar((int) lugarGetId(i), lugarGetCategoria(i), lugarGetNombre(i), lugarGetLatitud(i), lugarGetLongitud(i), actual.getAscii());
         }
     }
