@@ -104,7 +104,8 @@ public class JsonFileOpenerLocalidadesConductores {
             Boolean disponibilidad = getDisponibilidad(i);
             System.out.println(id);
             
-            Usuario nuevo = arbolConductores.encontrarUsuarioJson(id, arbolConductores.getRaiz());
+            Foo encontrado = new Foo();
+            Usuario nuevo = arbolConductores.encontrarUsuarioPorId(id, arbolConductores.getRaiz(), encontrado);
             
             if(nuevo != null){
                 nuevo.setLugarActual(nombreLugar);

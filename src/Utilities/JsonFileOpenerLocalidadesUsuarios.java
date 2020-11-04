@@ -89,7 +89,8 @@ public class JsonFileOpenerLocalidadesUsuarios {
             String nombreLugar = getLugar(i);
             System.out.println(id);
             
-            Usuario nuevo = arbolUsuarios.encontrarUsuarioJson(id, arbolUsuarios.getRaiz());
+            Foo encontrado = new Foo();
+            Usuario nuevo = arbolUsuarios.encontrarUsuarioPorId(id, arbolUsuarios.getRaiz(), encontrado);
             
             if(nuevo != null){
                 nuevo.setLugarActual(nombreLugar);

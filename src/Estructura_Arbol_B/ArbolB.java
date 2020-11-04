@@ -7,6 +7,7 @@ package Estructura_Arbol_B;
 
 import Estructura_Tabla_Hash.NodeLugar;
 import Estructura_Tabla_Hash.Table;
+import Utilities.Foo;
 import java.io.FileWriter;
 import java.io.IOException;
 import Utilities.Metodos;
@@ -192,7 +193,7 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
     }
 
-    public Usuario encontrarUsuarioJson(int id, Page pagina) {
+    public Usuario encontrarUsuarioPorId(int id, Page pagina, Foo encontrado) {
         Usuario actual = null;
 
         Page paginaActual = pagina;
@@ -202,22 +203,20 @@ public class ArbolB<T extends Comparable<T>, V> {
 
         for (int i = 0; i < k; i++) {
             Key llaveActual = llaves[i];
-
-            if (llaveActual != null && llaveActual.getKey().compareTo(id) > 0) {
-                if (llaveActual.getDerecha() != null) {
-
-                    actual = encontrarUsuarioJson(id, llaveActual.getDerecha());
+            if (encontrado.is == false) {
+                if (llaveActual != null && llaveActual.getKey().compareTo(id) < 0) {
+                    if (llaveActual.getDerecha() != null) {
+                        actual = encontrarUsuarioPorId(id, llaveActual.getDerecha(), encontrado);
+                    }
+                } else if (llaveActual != null && llaveActual.getKey().compareTo(id) > 0) {
+                    if (llaveActual.getIzquierda() != null) {
+                        actual = encontrarUsuarioPorId(id, llaveActual.getIzquierda(), encontrado);
+                    }
+                } else if (llaveActual != null && llaveActual.getKey().compareTo(id) == 0) {
+                    actual = (Usuario) llaveActual.getValor();
+                    encontrado.is = true;
                     return actual;
                 }
-            } else if (llaveActual != null && llaveActual.getKey().compareTo(id) < 0) {
-                if (llaveActual.getIzquierda() != null) {
-
-                    actual = encontrarUsuarioJson(id, llaveActual.getIzquierda());
-                    return actual;
-                }
-            } else if (llaveActual != null && llaveActual.getKey().compareTo(id) == 0) {
-                actual = (Usuario) llaveActual.getValor();
-                return actual;
             }
         }
 
@@ -262,7 +261,7 @@ public class ArbolB<T extends Comparable<T>, V> {
 
         Metodos metodos = new Metodos();
         Usuario conductorTemp = null;
-        
+
         NodeLugar lugarConductorActual = tablaHashLugares.buscar(metodos.ascii(conductorActual.getLugarActual()), conductorActual.getLugarActual());
 
         double diferenciaActualLat = abs(lat - lugarConductorActual.getLat());
@@ -274,7 +273,7 @@ public class ArbolB<T extends Comparable<T>, V> {
 
         for (int i = 0; i < k; i++) {
             Key llaveActual = llaves[i];
-            if (llaveActual != null){
+            if (llaveActual != null) {
                 conductorTemp = (Usuario) llaveActual.getValor();
                 String lugarNombreConductorTemp = conductorTemp.getLugarActual();
                 boolean disponible = conductorTemp.getDisponible();
@@ -284,13 +283,16 @@ public class ArbolB<T extends Comparable<T>, V> {
                 double diferenciaTemplLon = abs(lon - lugarConductorTemp.getLon());
                 double distanciaTempAUsuario = Math.sqrt((diferenciaTempLat * diferenciaTempLat) + (diferenciaTemplLon * diferenciaTemplLon));
 
-                if (conductorActual == null){
+                if (conductorActual == null) {
                     conductorActual = conductorTemp;
-                }if (disponible && distanciaActualAUsuario < distanciaTempAUsuario) {
+                }
+                if (disponible && distanciaActualAUsuario < distanciaTempAUsuario) {
                     conductorActual = conductorTemp;
-                }if (llaveActual.getDerecha() != null){
+                }
+                if (llaveActual.getDerecha() != null) {
                     conductorActual = encontrarUsuarioMasCercano(llaveActual.getDerecha(), conductorActual, tablaHashLugares, lat, lon);
-                }if (llaveActual.getIzquierda() != null) {
+                }
+                if (llaveActual.getIzquierda() != null) {
                     conductorActual = encontrarUsuarioMasCercano(llaveActual.getIzquierda(), conductorActual, tablaHashLugares, lat, lon);
                 }
             }
@@ -298,6 +300,70 @@ public class ArbolB<T extends Comparable<T>, V> {
 
         return conductorActual;
 
+    }
+
+    public Viaje encontrarViajePorId(int id, Page pagina, Foo encontrado) {
+        Viaje actual = null;
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        int[] arrayValores = llenarArray(llaves);
+        int numeroPaginaActual = this.numeroNodo;
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+            if (encontrado.is == false) {
+                if (llaveActual != null && llaveActual.getKey().compareTo(id) < 0) {
+                    if (llaveActual.getDerecha() != null) {
+                        actual = encontrarViajePorId(id, llaveActual.getDerecha(), encontrado);
+                    }
+                } else if (llaveActual != null && llaveActual.getKey().compareTo(id) > 0) {
+                    if (llaveActual.getIzquierda() != null) {
+                        actual = encontrarViajePorId(id, llaveActual.getIzquierda(), encontrado);
+                    }
+                } else if (llaveActual != null && llaveActual.getKey().compareTo(id) == 0) {
+                    actual = (Viaje) llaveActual.getValor();
+                    encontrado.is = true;
+                    return actual;
+                }
+            }
+        }
+        System.out.println("Viaje No Encontrado");
+        return actual;
+    }
+
+    public Factura encontrarFacturaPorIdViaje(int idViaje, Page pagina, Foo encontrado) {
+        Factura actual = null;
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        int[] arrayValores = llenarArray(llaves);
+        int numeroPaginaActual = this.numeroNodo;
+
+        for (int i = 0; i < k; i++) {
+            Key llaveActual = llaves[i];
+
+            if (encontrado.is == false) {
+                if (llaveActual.getDerecha() != null) {
+                    actual = encontrarFacturaPorIdViaje(idViaje, llaveActual.getDerecha(), encontrado);
+                }
+                if (llaveActual.getIzquierda() != null) {
+                    actual = encontrarFacturaPorIdViaje(idViaje, llaveActual.getIzquierda(), encontrado);
+                }
+            }
+            if (llaveActual != null) {
+                Factura facturaActual = (Factura) llaveActual.getValor();
+                if (idViaje == facturaActual.getId_viaje()) {
+                    actual = (Factura) llaveActual.getValor();
+                    encontrado.is = true;
+                    return actual;
+                }
+            }
+        }
+        if (actual == null) {
+            System.out.println("Viaje No Encontrado");
+        }
+        return actual;
     }
 
     private int colocarNodo(Page node, Key newKey) {
@@ -357,7 +423,7 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
     }
 
-    public int getLastIndexUsuario(Page pagina){
+    public int getLastIndexUsuario(Page pagina) {
         int lastIndex = 0;
         Usuario actual;
 
@@ -384,7 +450,7 @@ public class ArbolB<T extends Comparable<T>, V> {
         return lastIndex;
     }
 
-    public int getLastIndexViaje(Page pagina){
+    public int getLastIndexViaje(Page pagina) {
         int lastIndex = 0;
         Viaje actual;
 
@@ -410,8 +476,8 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
         return lastIndex;
     }
-    
-    public int getLastIndexFactura(Page pagina){
+
+    public int getLastIndexFactura(Page pagina) {
         int lastIndex = 0;
         Usuario actual;
 
@@ -437,7 +503,7 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
         return lastIndex;
     }
-    
+
     private void graficarPaginas(FileWriter myWriter, Page pagina, int numeroPagina) {
 
         Page paginaActual = pagina;
@@ -550,6 +616,5 @@ public class ArbolB<T extends Comparable<T>, V> {
         }
         return codigo;
     }
-
 
 }

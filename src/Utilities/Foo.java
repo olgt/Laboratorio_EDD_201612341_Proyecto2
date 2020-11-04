@@ -10,5 +10,5 @@ package Utilities;
  * @author Oscar
  */
 public class Foo {
-    boolean is = false;
+    public boolean is = false;
 }
