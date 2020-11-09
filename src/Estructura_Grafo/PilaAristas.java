@@ -9,13 +9,13 @@ package Estructura_Grafo;
  *
  * @author Oscar
  */
-public class PilaVertices {
+public class PilaAristas {
 
     private int size;
-    private Vertice head, tail;
-    private Vertice siguiente;
+    private NodoArista head, tail;
+    private NodoArista siguiente;
 
-    public void agregar(Vertice arista) {
+    public void agregar(NodoArista arista) {
         if (this.head == null) {
             this.head = arista;
             this.tail = arista;
@@ -29,8 +29,8 @@ public class PilaVertices {
     }
 
     public void pop() {
-        Vertice actual = this.head;
-        Vertice temp = this.head;
+        NodoArista actual = this.head;
+        NodoArista temp = this.head;
 
         if (this.head == null) {
             return;
@@ -68,29 +68,37 @@ public class PilaVertices {
     /**
      * @return the head
      */
-    public Vertice getHead() {
+    public NodoArista getHead() {
         return head;
     }
 
     /**
      * @param head the head to set
      */
-    public void setHead(Vertice head) {
+    public void setHead(NodoArista head) {
         this.head = head;
     }
 
     /**
      * @return the siguiente
      */
-    public Vertice getSiguiente() {
+    public NodoArista getSiguiente() {
         return siguiente;
     }
 
     /**
      * @param siguiente the siguiente to set
      */
-    public void setSiguiente(Vertice siguiente) {
+    public void setSiguiente(NodoArista siguiente) {
         this.siguiente = siguiente;
 
+    }
+    
+    public void recorrer(){
+        NodoArista nodoActual = this.getHead();
+        
+        while(nodoActual != null){
+            System.out.println("Nodo A: " + nodoActual.getVerticeA() + " -> " + nodoActual.getVerticeB());
+        }
     }
 }

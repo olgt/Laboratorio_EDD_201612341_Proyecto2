@@ -34,6 +34,13 @@
       "unidad":"KM",
       "precio": 60,
       "moneda":"Quetzales"
+    },
+    { "inicio":"Gasolinera puma quetzal",
+      "final":"Zoo",
+      "peso":1,
+      "unidad":"KM",
+      "precio": 20,
+      "moneda":"Quetzales"
     }
   ]
 }

@@ -113,16 +113,58 @@ public class Metodos {
         frame.setVisible(true);
     }
 
+    public void mostrarMapaRutaDjikstra(Grafo grafo, NodeLugar[] arrayLugares) {
+        String apiKey = "AIzaSyAQIa8L5-4XCFJbFkKwlHoPu-7psnrEdJo";
+        String apiKeyPrestada = "AIzaSyAR-xSrf5bYghVZDdfQ1F0Yk3nWpyViyig";
+
+        MapViewOptions opciones = new MapViewOptions();
+        opciones.importPlaces();
+        opciones.setApiKey(apiKey);
+
+        Mapa mapa = new Mapa(opciones);
+        mapa.esperar();
+
+        ListaEnlazadaArista listaVacia = null;
+
+        for (int i = 0; i < arrayLugares.length; i++) {
+            if (arrayLugares[i] != null) {
+
+                double lat = arrayLugares[i].getLat();
+                double lon = arrayLugares[i].getLon();
+                LatLng latlong1 = new LatLng(lat, lon);
+
+                mapa.centrarEnUsuario(latlong1);
+                mapa.agregarMarcador(latlong1);
+            }
+        }
+
+        for (int i = 0; i < arrayLugares.length-1; i++) {
+
+                LatLng latlong1 = new LatLng(arrayLugares[i].getLat(), arrayLugares[i].getLon());
+                LatLng latlong2 = new LatLng(arrayLugares[i+1].getLat(), arrayLugares[i+1].getLon());
+
+                mapa.agregarLinea(latlong1, latlong2, true);
+        }
+
+        mapa.setVisible(true);
+        JFrame frame = new JFrame("Mapa");
+        frame.setLocationRelativeTo(null);
+        frame.setSize(1000, 800);
+        frame.add(mapa, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
+    
     public ListaEnlazadaArista getCamino(ListaEnlazadaArista listaCompleta, ListaEnlazadaArista listaVacia, NodoArista cabeza,
             String idDestino, String idComienzo, Foo encontrado, NodoArista parent) {
-
+            Vertice vertice = null;
+        
         NodoArista actual = listaCompleta.getHead();
 
         while (actual != null) {
 
             if (actual.getVerticeA().equals(idComienzo) && actual != parent) {
                 if (actual.getVerticeB().equals(idDestino)) {
-                    listaVacia.add(actual);
+                    listaVacia.add(actual,vertice);
                     encontrado.is = true;
                     return listaVacia;
                 } else {
@@ -134,7 +176,7 @@ public class Metodos {
             if (encontrado.is == false) {
                 actual = actual.getSiguiente();
             } else {
-                listaVacia.add(actual);
+                listaVacia.add(actual, vertice);
             }
         }
 
@@ -146,20 +188,19 @@ public class Metodos {
         Page paginaActual = pagina;
         Key[] llaves = paginaActual.getLlaves();
         Viaje viajeActual;
-        
+
         Key llaveActual = llaves[0];
-        
+
         if (llaveActual != null) {
-                viajeActual = (Viaje) llaveActual.getValor();
-                int idViaje = viajeActual.getId();
-                LocalDate fechaViaje = viajeActual.getFecha();
-                
-                if (llaveActual.getIzquierda() != null) {
-                    llenarJTable(modelo, llaveActual.getIzquierda(), k, contador);
-                }
-                
+            viajeActual = (Viaje) llaveActual.getValor();
+            int idViaje = viajeActual.getId();
+            LocalDate fechaViaje = viajeActual.getFecha();
+
+            if (llaveActual.getIzquierda() != null) {
+                llenarJTable(modelo, llaveActual.getIzquierda(), k, contador);
+            }
+
         }
-        
 
         for (int i = 0; i < k; i++) {
             llaveActual = llaves[i];
@@ -179,5 +220,54 @@ public class Metodos {
             }
         }
         return modelo.getModel();
+    }
+
+    public void graficarArbolBViajesFacturas(Page pagina, int k) {
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        Usuario usuarioActual;
+
+        Key llaveActual = llaves[0];
+
+        if (llaveActual != null) {
+            if (llaveActual.getIzquierda() != null) {
+                graficarArbolBViajesFacturas(llaveActual.getIzquierda(), k);
+            }
+        }
+
+        for (int i = 0; i < k; i++) {
+            llaveActual = llaves[i];
+
+            if (llaveActual != null) {
+                usuarioActual = (Usuario) llaveActual.getValor();
+
+                ArbolB viajeActual = usuarioActual.getViajes();
+                ArbolB facturaActual = usuarioActual.getFacturas();
+
+                if (viajeActual != null) {
+                    viajeActual.graficarArbol("Viajes" + usuarioActual.getUsuario());
+                }
+                if (facturaActual != null){
+                    facturaActual.graficarArbol("Facturas" + usuarioActual.getUsuario());
+                }
+
+                if (llaveActual.getDerecha() != null) {
+                    graficarArbolBViajesFacturas(llaveActual.getDerecha(), k);
+                }
+            }
+        }
+    }
+
+    public int encontrarIndexDeNodo(NodoArista [][] graph, String lugarUsuario){
+        int i = 0;
+        boolean encontrado = false;
+        for(int j = 0; j<graph[0].length; j++){
+                NodoArista nodo = graph[j][0];
+                if(nodo.getVerticeA().equals(lugarUsuario)){
+                    break;
+                }
+        }
+        return i;
     }
 }

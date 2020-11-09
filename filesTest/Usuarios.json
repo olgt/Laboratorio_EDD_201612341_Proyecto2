@@ -35,6 +35,15 @@
 	 "pass":"spiderman",
 	 "telefono":"20201921",
 	 "rol":"normal"
+  },
+  {
+	 "id":4,
+	 "nombre":"Oscar",
+	 "usuario":"oscar",
+	 "correo":"spidfserman@gmail.com",
+	 "pass":"oscar",
+	 "telefono":"20201921",
+	 "rol":"normal"
   }
 ]
 

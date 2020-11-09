@@ -125,7 +125,7 @@ public class JsonFileOpenerConexiones {
         for (char ch : letters) {
             valorAscii = +(byte) ch;
         }
-        System.out.println(valorAscii);
+        
         return valorAscii;
 
     }
@@ -141,6 +141,7 @@ public class JsonFileOpenerConexiones {
             NodeLugar lugar2 = tablasHash.buscar(ascii2, getFinal(i));
             
             grafo.enlazar(i, lugar1.getNombre(), lugar2.getNombre(), (double) getPrecio(i), (int) getPeso(i), getMoneda(i), getUnidad(i));
+            
         }
         grafo.crearMatrizAdyecencia(tablasHash);
     }

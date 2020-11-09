@@ -35,7 +35,7 @@ public class ListaEnlazadaVertices {
         
         while(actual != null){
             
-            System.out.print("Vertice" + actual.getName());
+            System.out.print("Vertice " + actual.getName());
 
             actual.getAdyacentes().recorrerLista();
             

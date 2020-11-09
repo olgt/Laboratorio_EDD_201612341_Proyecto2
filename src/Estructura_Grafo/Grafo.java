@@ -40,10 +40,18 @@ public class Grafo {
         if (origen == null || destino == null) {
             System.out.println("No se puede enlazar");
             return;
+        } else {
+            System.out.println("Agregando " + origen.getName() + "->" + destino.getName() + " a nodo " + origen.getName() + " y " + destino.getName());
         }
-        NodoArista arista = new NodoArista(id, a, b, precio, peso, moneda, unidad);
-        origen.getAdyacentes().add(arista);
-        destino.getAdyacentes().add(arista);
+        NodoArista arista1 = new NodoArista(id, a, b, precio, peso, moneda, unidad);
+        NodoArista arista2 = new NodoArista(id, b, a, precio, peso, moneda, unidad);
+        origen.getAdyacentes().add(arista1, origen);
+       
+        destino.getAdyacentes().add(arista2, destino);
+        String Destino = destino.getName();
+        
+        
+        
     }
 
     public Vertice existe(String i) {
@@ -67,12 +75,6 @@ public class Grafo {
 
     }
 
-    public void djistra(Vertice verticeInicio, Vertice verticeB) {
-        Vertice verticeActual = verticeInicio;
-
-        //int graph[][] = new int[][];
-    }
-
     public NodoArista[][] crearMatrizAdyecencia(Table tablaLugares) {
         int dimension = tablaLugares.getCarga();
         NodeLugar nuevoArreglo[] = llenarArreglo(tablaLugares);
@@ -93,7 +95,7 @@ public class Grafo {
                 }
                 if (encontrado != null) {
                     //poner peso de encontrado en tabla de adyecencia;
-                    
+
                     NodoArista nuevo = new NodoArista(encontrado.getId(), encontrado.getVerticeA(), encontrado.getVerticeB(), encontrado.getPrecio(),
                             encontrado.getPeso(), encontrado.getMoneda(), encontrado.getUnidad());
                     graph[i][j] = nuevo;
@@ -135,7 +137,10 @@ public class Grafo {
 
     }
 
-    public NodoArista[][] getMatriz(){
+    public NodoArista[][] getMatriz() {
         return this.matrizAdyecencia;
     }
+
+
+
 }

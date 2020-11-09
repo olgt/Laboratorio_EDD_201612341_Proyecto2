@@ -25,6 +25,8 @@ public class Vertice {
         this.latitud = latitud;
         this.longitud = longitud;
         this.visitado = false;
+        this.siguiente = null;
+        this.anterior = null;
     }
     
     public boolean isVisitado(){

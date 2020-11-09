@@ -14,16 +14,16 @@ public class ListaEnlazadaArista {
     private NodoArista tail;
     private int size;
     
-    ListaEnlazadaArista(){
+    public ListaEnlazadaArista(){
         this.head = null;
         this.tail = null;
         this.size = 0;
     }
     
-    public void add(NodoArista nuevo){
+    public void add(NodoArista nuevo, Vertice origen){
         this.size = ++size;
         NodoArista encontrado = searchNode(nuevo.getVerticeA(), nuevo.getVerticeB());
-        
+
         nuevo.setId(size);
         
         if(this.head == null){
@@ -34,6 +34,7 @@ public class ListaEnlazadaArista {
                 this.tail.setSiguiente(nuevo);
                 this.tail.getSiguiente().setAnterior(this.tail);
                 this.tail = nuevo;
+                this.tail.setSiguiente(null);
             } else {
                 System.out.println("Enlace Ya existe");
             }

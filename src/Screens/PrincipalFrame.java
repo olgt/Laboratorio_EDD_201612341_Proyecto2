@@ -6,12 +6,7 @@
 package Screens;
 
 import Estructura_Arbol_B.*;
-import Estructura_Grafo.Grafo;
-import Estructura_Grafo.ListaEnlazadaArista;
-import Estructura_Grafo.ListaEnlazadaVertices;
-import Estructura_Grafo.NodoArista;
-import Estructura_Grafo.ShortestPath;
-import Estructura_Grafo.Vertice;
+import Estructura_Grafo.*;
 import Estructura_Tabla_Hash.*;
 import GoogleMap.Mapa;
 import Utilities.*;
@@ -142,7 +137,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
         panelPedirViaje = new javax.swing.JPanel();
         buttonSalirMainConductor1 = new javax.swing.JButton();
         mensajeBienvenidaUsuario2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        buttonPedirViajeUsuario = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableLugares = new javax.swing.JTable();
         jLabel24 = new javax.swing.JLabel();
@@ -846,10 +841,10 @@ public class PrincipalFrame extends javax.swing.JFrame {
         mensajeBienvenidaUsuario2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mensajeBienvenidaUsuario2.setText("Lugares Disponibles");
 
-        jButton1.setText("Pedir Viaje");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonPedirViajeUsuario.setText("Pedir Viaje");
+        buttonPedirViajeUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonPedirViajeUsuarioActionPerformed(evt);
             }
         });
 
@@ -918,7 +913,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPedirViajeLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonPedirViajeUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonSalirMainConductor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonCalcularViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(63, 63, 63)
@@ -939,7 +934,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
                 .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPedirViajeLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(buttonPedirViajeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelPedirViajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel24)
                         .addComponent(labelPrecio)))
@@ -1329,8 +1324,9 @@ public class PrincipalFrame extends javax.swing.JFrame {
         jPanel1.setVisible(true);
         this.setContentPane(jPanel1);
 
-        jTextArea1.setText("");
-        jPasswordField1.setText("");
+        jTextArea1.setText("superman");
+        jPasswordField1.setText("superman");
+
     }//GEN-LAST:event_salirAdminActionPerformed
 
     private void cargarUsuariosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarUsuariosButtonActionPerformed
@@ -1537,7 +1533,6 @@ public class PrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cargarLugaresButtonActionPerformed
 
     private void cargarConexionesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarConexionesButtonActionPerformed
-        // TODO add your handling code here:
         JsonFileOpenerConexiones fileOpener = new JsonFileOpenerConexiones();
 
         JFileChooser chooser = new JFileChooser();
@@ -1662,17 +1657,37 @@ public class PrincipalFrame extends javax.swing.JFrame {
         int idLugarUsuario = nodoLugarUsuario.getId();
 
         //Realizamos el metodo del camino mas corto
-        nuevo.dijkstra(grafo.getMatriz(), tablaLugares.getCarga());
-        ListaEnlazadaArista listaAristas = nuevo.dijkstraArreglo(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado);
-        labelPrecio.setText(String.valueOf(nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado)));
+        System.out.println("Lugar Usuario: " + nodoLugarUsuario.getNombre());
+
+        //*********************************************************************************************************************************************************MEtodo Funcional
+        ListaEnlazadaArista listaAristas2 = new ListaEnlazadaArista();
+        DijkstrasAlgorithm algoritmo = new DijkstrasAlgorithm();
+        int idLugarMatrizAdyecencia = metodos.encontrarIndexDeNodo(grafo.getMatriz(), usuarioActual.getLugarActual());
+        ListaEnlazada lista = new ListaEnlazada();
+        algoritmo.dijkstra(grafo.getMatriz(), idLugarMatrizAdyecencia, idLugarSeleccionado, lista);
+        System.out.println();
+        lista.recorrerLista();
+
+        //************************** Dibujando Mapa
+        NodoTemp temp = lista.getHead();
+        NodeLugar arrayLugares[] = new NodeLugar[lista.getSize()];
+        int i = 0;
+        while (temp != null) {
+            NodeLugar nodoLugar = tablaLugares.buscarPorId(temp.getId());
+            arrayLugares[i] = nodoLugar;
+            temp = temp.getSiguiente();
+            i++;
+        }
+
+        metodos.mostrarMapaRutaDjikstra(grafo, arrayLugares);
+
+        labelPrecio.setText(String.valueOf(nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado, tablaLugares, lugarSeleccinado)));
         labelPrecio.repaint();
 
-        //Mostramos el mapa con la distancia mas corta
-        metodos.mostrarMapaRuta(grafo, listaAristas, lugarSeleccinado, tablaLugares);
-
+        System.out.println("Done");
     }//GEN-LAST:event_buttonCalcularViajeActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void buttonPedirViajeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPedirViajeUsuarioActionPerformed
         ShortestPath nuevo = new ShortestPath(tablaLugares.getCarga());
 
         //Obtenemos lugar Seleccionado
@@ -1686,26 +1701,30 @@ public class PrincipalFrame extends javax.swing.JFrame {
         int idLugarUsuario = nodoLugarUsuario.getId();
 
         //Realizamos el metodo del camino mas corto
-        Double precio = (nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado));
+        Double precio = (nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado, tablaLugares, lugarSeleccinado));
 
-        nuevo.dijkstra(grafo.getMatriz(), tablaLugares.getCarga());
-        ListaEnlazadaArista listaAristas = nuevo.dijkstraArreglo(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado);
+        nuevo.dijkstra(grafo.getMatriz(), idLugarUsuario, tablaLugares, lugarSeleccinado);
+        ListaEnlazadaArista listaAristas = nuevo.dijkstraArreglo(grafo.getMatriz(), idLugarUsuario, lugarSeleccinado);
         labelPrecio.setText(String.valueOf(precio));
         labelPrecio.repaint();
 
         //Agregamos el dato al arbol de viajes del usuario
         ArbolB arbolDeViajes = usuarioActual.getViajes();
-        int idNuevoViaje = arbolDeViajes.getLastIndexViaje(arbolDeViajes.getRaiz()) + 1;
 
+        int idNuevoViaje = arbolDeViajes.getLastIndexViaje(arbolDeViajes.getRaiz()) + 1;
         Viaje nuevoViaje = new Viaje(idNuevoViaje, usuarioActual.getLugarActual(), lugarSeleccinado, java.time.LocalDate.now());
         arbolDeViajes.insertar(idNuevoViaje, nuevoViaje);
         System.out.println("Viaje Agregado");
+
+        //Cambiamos posicicon de Usuario
+        usuarioActual.setLugarActual(lugarSeleccinado);
 
         //Agregamos la factura al arbol de Facturas del usuario
         ArbolB arbolDeFacturas = usuarioActual.getFacturas();
 
         //    public Factura(int id, int id_usuario, int id_conductor, int id_viaje, LocalDate fecha, double monto)
         Factura nuevaFactura = new Factura(arbolDeFacturas.getLastIndexFactura(arbolDeFacturas.getRaiz()) + 1, usuarioActual.getId(), 0, idNuevoViaje, java.time.LocalDate.now(), precio);
+        arbolDeFacturas.insertar(nuevaFactura.getId(), nuevaFactura);
         System.out.println("Factura Agregada");
 
         //Llenamos tabla Factura
@@ -1716,8 +1735,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
         buttonSalirFactura.setText("Volver a Pedir Viaje");
         panelPedirViaje.setVisible(false);
 
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_buttonPedirViajeUsuarioActionPerformed
 
     public void llenarTableFacturas(JTable tabla, Factura nuevaFactura) {
         TableModel modelo = tabla.getModel();
@@ -1744,6 +1762,9 @@ public class PrincipalFrame extends javax.swing.JFrame {
         arbolConductores.graficarArbol("ArbolConductores");
         arbolUsuarios.graficarArbol("ArbolUsuarios");
         tablaLugares.graficar("Lugares");
+        metodos.graficarArbolBViajesFacturas(arbolUsuarios.getRaiz(), 5);
+        metodos.graficarArbolBViajesFacturas(arbolConductores.getRaiz(), 5);
+
 
     }//GEN-LAST:event_cargarReportesButtonActionPerformed
 
@@ -1841,6 +1862,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonModificarInfoConductor;
     private javax.swing.JButton buttonModificarInfoUsuario;
     private javax.swing.JButton buttonPedirViaje;
+    private javax.swing.JButton buttonPedirViajeUsuario;
     private javax.swing.JButton buttonRegistrarNuevoUsuario;
     private javax.swing.JButton buttonSalirDetallesConductor;
     private javax.swing.JButton buttonSalirDetallesUsuario;
@@ -1860,7 +1882,6 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxRoles;
     private javax.swing.JLabel costo;
     private javax.swing.JButton ingresarButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

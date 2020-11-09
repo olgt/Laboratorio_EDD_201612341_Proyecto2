@@ -33,6 +33,8 @@ public class NodoArista {
         this.precio = precio;
         this.unidad = unidad;
         this.peso = peso;
+        this.siguiente = null;
+        this.anterior = null;
     }
     
 

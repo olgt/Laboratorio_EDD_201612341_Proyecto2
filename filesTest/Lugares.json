@@ -35,6 +35,14 @@
       "Nombre": "Ay Carmela",
       "Lat": 14.659038,
       "Lon": -90.566123,
+    },
+    { 
+
+      "id": 6,
+      "Categoria": "Zoo",
+      "Nombre": "Zoo",
+      "Lat": 14.597892,
+      "Lon": -90.524736,
     }
   ]
 }

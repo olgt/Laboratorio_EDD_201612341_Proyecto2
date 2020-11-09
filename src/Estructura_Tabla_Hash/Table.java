@@ -31,7 +31,6 @@ public class Table {
         NodeLugar nuevoNodo = new NodeLugar(id, categoria, nombre, lat, lon);
 
         int pos = posicion(ascii, nombre);
-        System.out.println("Pos " + pos + " Nombre " + nombre);
         this.arreglo[pos] = nuevoNodo;
         this.carga++;
 
@@ -80,9 +79,20 @@ public class Table {
         NodeLugar buscado = null;
 
         int pos = posicionBuscada(ascii, nombre);
-        System.out.println(" Posicion " + pos);
         if (pos != -1) {
             buscado = this.arreglo[pos];
+        }
+
+        return buscado;
+    }
+
+    public NodeLugar buscarPorId(int id) {
+        NodeLugar buscado = null;
+
+        for(int i = 0; i<this.size; i++){
+            if(arreglo[i] != null && arreglo[i].getId() == id){
+                return arreglo[i];
+            }
         }
 
         return buscado;
@@ -92,7 +102,6 @@ public class Table {
         int i = 0, p, vueltas = 0;
 
         p = (int) (ascii % this.size);
-        System.out.println("Aqui " + p);
 
         if (arreglo[p] != null && arreglo[p].getNombre().equals(nombre)) {
             return p;

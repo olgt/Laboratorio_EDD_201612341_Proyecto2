@@ -395,6 +395,10 @@ public class ArbolB<T extends Comparable<T>, V> {
         return index;
     }
 
+    public void graficarArbolViajesUsuario(ArbolB arbolUsuarios) {
+
+    }
+
     public void graficarArbol(String nombre) {
         this.numeroNodo = 0;
         int numeroPagina = this.numeroNodo;
@@ -421,6 +425,60 @@ public class ArbolB<T extends Comparable<T>, V> {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    private void graficarPaginas(FileWriter myWriter, Page pagina, int numeroPagina) {
+
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        int[] arrayValores = llenarArray(llaves);
+        int numeroPaginaActual = this.numeroNodo;
+
+        try {
+            myWriter.write("node" + numeroPagina + "[label = "
+                    + "\"<f01> | <f1>" + arrayValores[0] + "| <f12> |"
+                    + "<f2>" + arrayValores[1] + "| <f23> |"
+                    + "<f3>" + arrayValores[2] + "| <f34> |"
+                    + "<f4>" + arrayValores[3] + "| <f45> |"
+                    + "<f5>" + arrayValores[4] + "| <f50>"
+                    + "\"]; \n");
+
+            if (llaves[0] != null && llaves[0].getIzquierda() != null) {
+                int numeroPaginaSigueinte = numeroPaginaActual + 1;
+
+                myWriter.write("\"node" + numeroPaginaActual + "\":" + claveSwitchIzquierda(0) + " -> \"node" + numeroPaginaSigueinte + "\":" + "f1" + "; \n");
+                this.numeroNodo = this.numeroNodo + +1;
+
+                graficarPaginas(myWriter, llaves[0].getIzquierda(), this.numeroNodo);
+            }
+
+            for (int i = 0; i < k; i++) {
+                Key llaveActual = llaves[i];
+                if (llaveActual != null) {
+                    if (llaveActual.getDerecha() != null) {
+                        int numeroPaginaSigueinte = this.numeroNodo + 1;
+
+                        myWriter.write("\"node" + numeroPaginaActual + "\":" + claveSwitchDerecha(i) + " -> \"node" + numeroPaginaSigueinte + "\":" + "f1" + "; \n");
+                        this.numeroNodo = this.numeroNodo + +1;
+
+                        graficarPaginas(myWriter, llaveActual.getDerecha(), this.numeroNodo);
+                    }
+                }
+            }
+            System.out.println("Successfully wrote page.");
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    private void agregarPrimerIzquierdo(FileWriter myWriter, Page pagina, int numeroPagina) {
+        Page paginaActual = pagina;
+        Key[] llaves = paginaActual.getLlaves();
+        int[] arrayValores = llenarArray(llaves);
+        int numeroPaginaActual = numeroPagina;
+
     }
 
     public int getLastIndexUsuario(Page pagina) {
@@ -502,60 +560,6 @@ public class ArbolB<T extends Comparable<T>, V> {
             }
         }
         return lastIndex;
-    }
-
-    private void graficarPaginas(FileWriter myWriter, Page pagina, int numeroPagina) {
-
-        Page paginaActual = pagina;
-        Key[] llaves = paginaActual.getLlaves();
-        int[] arrayValores = llenarArray(llaves);
-        int numeroPaginaActual = this.numeroNodo;
-
-        try {
-            myWriter.write("node" + numeroPagina + "[label = "
-                    + "\"<f01> | <f1>" + arrayValores[0] + "| <f12> |"
-                    + "<f2>" + arrayValores[1] + "| <f23> |"
-                    + "<f3>" + arrayValores[2] + "| <f34> |"
-                    + "<f4>" + arrayValores[3] + "| <f45> |"
-                    + "<f5>" + arrayValores[4] + "| <f50>"
-                    + "\"]; \n");
-
-            if (llaves[0] != null && llaves[0].getIzquierda() != null) {
-                int numeroPaginaSigueinte = numeroPaginaActual + 1;
-
-                myWriter.write("\"node" + numeroPaginaActual + "\":" + claveSwitchIzquierda(0) + " -> \"node" + numeroPaginaSigueinte + "\":" + "f1" + "; \n");
-                this.numeroNodo = this.numeroNodo + +1;
-
-                graficarPaginas(myWriter, llaves[0].getIzquierda(), this.numeroNodo);
-            }
-
-            for (int i = 0; i < k; i++) {
-                Key llaveActual = llaves[i];
-                if (llaveActual != null) {
-                    if (llaveActual.getDerecha() != null) {
-                        int numeroPaginaSigueinte = this.numeroNodo + 1;
-
-                        myWriter.write("\"node" + numeroPaginaActual + "\":" + claveSwitchDerecha(i) + " -> \"node" + numeroPaginaSigueinte + "\":" + "f1" + "; \n");
-                        this.numeroNodo = this.numeroNodo + +1;
-
-                        graficarPaginas(myWriter, llaveActual.getDerecha(), this.numeroNodo);
-                    }
-                }
-            }
-            System.out.println("Successfully wrote page.");
-
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
-    private void agregarPrimerIzquierdo(FileWriter myWriter, Page pagina, int numeroPagina) {
-        Page paginaActual = pagina;
-        Key[] llaves = paginaActual.getLlaves();
-        int[] arrayValores = llenarArray(llaves);
-        int numeroPaginaActual = numeroPagina;
-
     }
 
     private int[] llenarArray(Key[] llaves) {
