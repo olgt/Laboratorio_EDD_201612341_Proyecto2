@@ -537,7 +537,7 @@ public class ArbolB<T extends Comparable<T>, V> {
 
     public int getLastIndexFactura(Page pagina) {
         int lastIndex = 0;
-        Usuario actual;
+        Factura actual;
 
         Page paginaActual = pagina;
         Key[] llaves = paginaActual.getLlaves();
@@ -551,7 +551,7 @@ public class ArbolB<T extends Comparable<T>, V> {
             }
 
             if ((llaveSiguiente == null || i == k - 1) && llaveActual != null) {
-                actual = (Usuario) llaveActual.getValor();
+                actual = (Factura) llaveActual.getValor();
                 lastIndex = actual.getId();
                 if (llaveActual.getDerecha() != null) {
                     lastIndex = getLastIndexFactura(llaveActual.getDerecha());

@@ -15,7 +15,7 @@ public class ListaEnlazada {
     private NodoTemp tail;
     private int size;
 
-        public ListaEnlazada() {
+    public ListaEnlazada() {
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -24,8 +24,7 @@ public class ListaEnlazada {
     public void add(NodoTemp nuevo) {
         this.size = ++size;
 
-        nuevo.setId(size);
-
+        
         if (this.head == null) {
             this.head = nuevo;
             this.tail = nuevo;

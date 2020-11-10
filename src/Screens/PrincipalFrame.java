@@ -173,6 +173,8 @@ public class PrincipalFrame extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         rolComboBox = new javax.swing.JComboBox<>();
+        lugarInicioBox = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
 
         panelAdmin.setBackground(new java.awt.Color(102, 204, 0));
         panelAdmin.setMinimumSize(new java.awt.Dimension(734, 730));
@@ -1091,6 +1093,8 @@ public class PrincipalFrame extends javax.swing.JFrame {
 
         rolComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Conductor" }));
 
+        jLabel36.setText("Lugar Inicio");
+
         javax.swing.GroupLayout jPanelRegistroLayout = new javax.swing.GroupLayout(jPanelRegistro);
         jPanelRegistro.setLayout(jPanelRegistroLayout);
         jPanelRegistroLayout.setHorizontalGroup(
@@ -1117,15 +1121,22 @@ public class PrincipalFrame extends javax.swing.JFrame {
                         .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textFieldNuevoUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldNuevoNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel22)
-                    .addComponent(jLabel23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel22)
+                        .addComponent(jLabel23))
+                    .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rolComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFieldNuevoCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63))
+                    .addGroup(jPanelRegistroLayout.createSequentialGroup()
+                        .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldNuevoCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rolComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(63, 63, 63))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRegistroLayout.createSequentialGroup()
+                        .addComponent(lugarInicioBox, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75))))
         );
         jPanelRegistroLayout.setVerticalGroup(
             jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1148,11 +1159,18 @@ public class PrincipalFrame extends javax.swing.JFrame {
                         .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textFieldNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel19))))
-                .addGap(28, 28, 28)
-                .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(textFieldNuevoContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelRegistroLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(textFieldNuevoContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelRegistroLayout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lugarInicioBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel36))))
+                .addGap(13, 13, 13)
                 .addGroup(jPanelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel20)
                     .addComponent(textFieldNuevoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1191,9 +1209,9 @@ public class PrincipalFrame extends javax.swing.JFrame {
                 .addComponent(buttonRegistrarNuevoUsuario)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
+                .addContainerGap(95, Short.MAX_VALUE)
                 .addComponent(jPanelRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1497,20 +1515,18 @@ public class PrincipalFrame extends javax.swing.JFrame {
         if (rolSeleccionado.equals("Normal")) {
             Usuario nuevoUsuario = new Usuario(lastIdUsuario + 1, textFieldNuevoNombre.getText(), textFieldNuevoUsuario.getText(),
                     textFieldNuevoCorreo.getText(), passwordEncrypted, textFieldNuevoTelefono.getText(), (String) rolComboBox.getSelectedItem());
-
+            nuevoUsuario.setLugarActual(lugarInicioBox.getText());
             jPanelRegistro.setVisible(false);
             arbolUsuarios.insertar(lastIdUsuario + 1, nuevoUsuario);
             buttonRegistrarNuevoUsuario.setVisible(false);
         } else {
             Usuario nuevoUsuario = new Usuario(lastIdConductor + 1, textFieldNuevoNombre.getText(), textFieldNuevoUsuario.getText(),
                     textFieldNuevoCorreo.getText(), passwordEncrypted, textFieldNuevoTelefono.getText(), (String) rolComboBox.getSelectedItem());
-
+            nuevoUsuario.setLugarActual(lugarInicioBox.getText());
             jPanelRegistro.setVisible(false);
             arbolConductores.insertar(lastIdConductor + 1, nuevoUsuario);
             buttonRegistrarNuevoUsuario.setVisible(false);
         }
-
-
     }//GEN-LAST:event_buttonRegistrarNuevoUsuarioActionPerformed
 
     private void cargarLugaresButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarLugaresButtonActionPerformed
@@ -1610,12 +1626,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cargarMapaButtonActionPerformed
 
     private void buttonPedirViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPedirViajeActionPerformed
-        // TODO add your handling code here:
-        //Key[] arreglo = arbolConductores.getRaiz().getLlaves();
-        //NodeLugar lugarDeUsuario = tablaLugares.buscar(metodos.ascii(usuarioActual.getLugarActual()), usuarioActual.getLugarActual()) ;
-        //Usuario conductorCercano = arbolConductores.encontrarUsuarioMasCercano(arbolConductores.getRaiz(), (Usuario) arreglo[0].getValor(), tablaLugares, lugarDeUsuario.getLat(), lugarDeUsuario.getLon());
-
-        //System.out.println("Conductor Mas Cercano: " + conductorCercano.getNombre());
+        
         panelMainUsuario.setVisible(false);
         panelPedirViaje.setVisible(true);
         this.setContentPane(panelPedirViaje);
@@ -1629,7 +1640,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
         //Tabla Lugares Disponibles
         TableModel modelo = jTableLugares.getModel();
 
-        for (int i = 0; i < tablaLugares.getCarga(); i++) {
+        for (int i = 0; i < tablaLugares.getCarga(); i++){
             modelo.setValueAt(categorias[i], i, 0);
             modelo.setValueAt(lugares[i], i, 1);
         }
@@ -1644,7 +1655,6 @@ public class PrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonSalirMainConductor1ActionPerformed
 
     private void buttonCalcularViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCalcularViajeActionPerformed
-        ShortestPath nuevo = new ShortestPath(tablaLugares.getCarga());
 
         //Obtenemos lugar Seleccionado
         int row = jTableLugares.getSelectedRow();
@@ -1660,37 +1670,38 @@ public class PrincipalFrame extends javax.swing.JFrame {
         System.out.println("Lugar Usuario: " + nodoLugarUsuario.getNombre());
 
         //*********************************************************************************************************************************************************MEtodo Funcional
-        ListaEnlazadaArista listaAristas2 = new ListaEnlazadaArista();
         DijkstrasAlgorithm algoritmo = new DijkstrasAlgorithm();
-        int idLugarMatrizAdyecencia = metodos.encontrarIndexDeNodo(grafo.getMatriz(), usuarioActual.getLugarActual());
+        int idLugarMatrizAdyecenciaUsuario = metodos.encontrarIndexDeNodo(grafo.getMatriz(), usuarioActual.getLugarActual());
+        int idLugarMatrizAdyecenciaLugar = metodos.encontrarIndexDeNodo(grafo.getMatriz(), nodoLugarSeleccinado.getNombre());
         ListaEnlazada lista = new ListaEnlazada();
-        algoritmo.dijkstra(grafo.getMatriz(), idLugarMatrizAdyecencia, idLugarSeleccionado, lista);
+        labelPrecio.setText(Double.toString(algoritmo.dijkstra(grafo.getMatriz(), idLugarMatrizAdyecenciaUsuario, idLugarMatrizAdyecenciaLugar, lista)));
+        
         System.out.println();
         lista.recorrerLista();
+        
+            
 
         //************************** Dibujando Mapa
         NodoTemp temp = lista.getHead();
         NodeLugar arrayLugares[] = new NodeLugar[lista.getSize()];
+        NodeLugar nuevoArreglo[] = grafo.llenarArreglo(tablaLugares);
         int i = 0;
         while (temp != null) {
-            NodeLugar nodoLugar = tablaLugares.buscarPorId(temp.getId());
+            NodeLugar nodoLugar = tablaLugares.buscarPorId(nuevoArreglo[temp.getId()].getId());
             arrayLugares[i] = nodoLugar;
             temp = temp.getSiguiente();
             i++;
         }
 
         metodos.mostrarMapaRutaDjikstra(grafo, arrayLugares);
-
-        labelPrecio.setText(String.valueOf(nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado, tablaLugares, lugarSeleccinado)));
+        
         labelPrecio.repaint();
 
         System.out.println("Done");
     }//GEN-LAST:event_buttonCalcularViajeActionPerformed
 
     private void buttonPedirViajeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPedirViajeUsuarioActionPerformed
-        ShortestPath nuevo = new ShortestPath(tablaLugares.getCarga());
-
-        //Obtenemos lugar Seleccionado
+       //Obtenemos lugar Seleccionado
         int row = jTableLugares.getSelectedRow();
         String lugarSeleccinado = (String) jTableLugares.getValueAt(row, 1);
         NodeLugar nodoLugarSeleccinado = tablaLugares.buscar(metodos.ascii(lugarSeleccinado), lugarSeleccinado);
@@ -1701,13 +1712,40 @@ public class PrincipalFrame extends javax.swing.JFrame {
         int idLugarUsuario = nodoLugarUsuario.getId();
 
         //Realizamos el metodo del camino mas corto
-        Double precio = (nuevo.dijkstraCosto(grafo.getMatriz(), idLugarUsuario, idLugarSeleccionado, tablaLugares, lugarSeleccinado));
+        System.out.println("Lugar Usuario: " + nodoLugarUsuario.getNombre());
 
-        nuevo.dijkstra(grafo.getMatriz(), idLugarUsuario, tablaLugares, lugarSeleccinado);
-        ListaEnlazadaArista listaAristas = nuevo.dijkstraArreglo(grafo.getMatriz(), idLugarUsuario, lugarSeleccinado);
-        labelPrecio.setText(String.valueOf(precio));
+        //*********************************************************************************************************************************************************MEtodo Funcional
+        DijkstrasAlgorithm algoritmo = new DijkstrasAlgorithm();
+        int idLugarMatrizAdyecenciaUsuario = metodos.encontrarIndexDeNodo(grafo.getMatriz(), usuarioActual.getLugarActual());
+        int idLugarMatrizAdyecenciaLugar = metodos.encontrarIndexDeNodo(grafo.getMatriz(), nodoLugarSeleccinado.getNombre());
+        ListaEnlazada lista = new ListaEnlazada();
+        double precio = algoritmo.dijkstra(grafo.getMatriz(), idLugarMatrizAdyecenciaUsuario, idLugarMatrizAdyecenciaLugar, lista);
+        labelPrecio.setText(Double.toString(precio));
+        
+        System.out.println();
+        lista.recorrerLista();
+        
+        
+        //************************** Dibujando Mapa
+       //************************** Dibujando Mapa
+        NodoTemp temp = lista.getHead();
+        NodeLugar arrayLugares[] = new NodeLugar[lista.getSize()];
+        NodeLugar nuevoArreglo[] = grafo.llenarArreglo(tablaLugares);
+        int i = 0;
+        while (temp != null) {
+            NodeLugar nodoLugar = tablaLugares.buscarPorId(nuevoArreglo[temp.getId()].getId());
+            arrayLugares[i] = nodoLugar;
+            temp = temp.getSiguiente();
+            i++;
+        }
+
+        metodos.mostrarMapaRutaDjikstra(grafo, arrayLugares);
+        
         labelPrecio.repaint();
 
+        System.out.println("Done");
+        
+        
         //Agregamos el dato al arbol de viajes del usuario
         ArbolB arbolDeViajes = usuarioActual.getViajes();
 
@@ -1911,6 +1949,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1935,6 +1974,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelNombreInicio;
     private javax.swing.JLabel labelNombreInicioConductor;
     private javax.swing.JLabel labelPrecio;
+    private javax.swing.JTextField lugarInicioBox;
     private javax.swing.JLabel mensajeBienvenidaUsuario;
     private javax.swing.JLabel mensajeBienvenidaUsuario1;
     private javax.swing.JLabel mensajeBienvenidaUsuario2;

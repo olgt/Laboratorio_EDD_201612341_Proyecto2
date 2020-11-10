@@ -125,7 +125,7 @@ public class Metodos {
         mapa.esperar();
 
         ListaEnlazadaArista listaVacia = null;
-
+        int numeroDeVeces = 0;
         for (int i = 0; i < arrayLugares.length; i++) {
             if (arrayLugares[i] != null) {
 
@@ -133,17 +133,23 @@ public class Metodos {
                 double lon = arrayLugares[i].getLon();
                 LatLng latlong1 = new LatLng(lat, lon);
 
-                mapa.centrarEnUsuario(latlong1);
-                mapa.agregarMarcador(latlong1);
+                if (numeroDeVeces < 1) {
+                    mapa.agregarMarcadorAzul(latlong1);
+                    mapa.centrarEnUsuario(latlong1);
+                    numeroDeVeces++;
+                } else {
+                    mapa.agregarMarcador(latlong1);
+                }
+
             }
         }
 
-        for (int i = 0; i < arrayLugares.length-1; i++) {
+        for (int i = 0; i < arrayLugares.length - 1; i++) {
 
-                LatLng latlong1 = new LatLng(arrayLugares[i].getLat(), arrayLugares[i].getLon());
-                LatLng latlong2 = new LatLng(arrayLugares[i+1].getLat(), arrayLugares[i+1].getLon());
+            LatLng latlong1 = new LatLng(arrayLugares[i].getLat(), arrayLugares[i].getLon());
+            LatLng latlong2 = new LatLng(arrayLugares[i + 1].getLat(), arrayLugares[i + 1].getLon());
 
-                mapa.agregarLinea(latlong1, latlong2, true);
+            mapa.agregarLinea(latlong1, latlong2, true);
         }
 
         mapa.setVisible(true);
@@ -153,18 +159,18 @@ public class Metodos {
         frame.add(mapa, BorderLayout.CENTER);
         frame.setVisible(true);
     }
-    
+
     public ListaEnlazadaArista getCamino(ListaEnlazadaArista listaCompleta, ListaEnlazadaArista listaVacia, NodoArista cabeza,
             String idDestino, String idComienzo, Foo encontrado, NodoArista parent) {
-            Vertice vertice = null;
-        
+        Vertice vertice = null;
+
         NodoArista actual = listaCompleta.getHead();
 
         while (actual != null) {
 
             if (actual.getVerticeA().equals(idComienzo) && actual != parent) {
                 if (actual.getVerticeB().equals(idDestino)) {
-                    listaVacia.add(actual,vertice);
+                    listaVacia.add(actual, vertice);
                     encontrado.is = true;
                     return listaVacia;
                 } else {
@@ -248,7 +254,7 @@ public class Metodos {
                 if (viajeActual != null) {
                     viajeActual.graficarArbol("Viajes" + usuarioActual.getUsuario());
                 }
-                if (facturaActual != null){
+                if (facturaActual != null) {
                     facturaActual.graficarArbol("Facturas" + usuarioActual.getUsuario());
                 }
 
@@ -259,14 +265,21 @@ public class Metodos {
         }
     }
 
-    public int encontrarIndexDeNodo(NodoArista [][] graph, String lugarUsuario){
+    public int encontrarIndexDeNodo(NodoArista[][] graph, String lugarUsuario) {
         int i = 0;
         boolean encontrado = false;
-        for(int j = 0; j<graph[0].length; j++){
-                NodoArista nodo = graph[j][0];
-                if(nodo.getVerticeA().equals(lugarUsuario)){
+        for (int j = 0; j < graph[0].length; j++) {
+            i = j;
+            for (int k = 0; k < graph[0].length; k++) {
+                NodoArista nodo = graph[j][k];
+                if (nodo.getVerticeA().equals(lugarUsuario)) {
+                    encontrado = true;
                     break;
                 }
+            }
+            if(encontrado == true){
+                break;
+            }
         }
         return i;
     }

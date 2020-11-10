@@ -60,6 +60,18 @@ public class Mapa extends MapView {
         return marcador;
     }
     
+    
+    public Marker agregarMarcadorAzul(LatLng coordenada){
+        Marker marcador = new Marker(map);
+        MarkerOptions options = new MarkerOptions();
+        options.setLabelString("**Estas Aqui**");
+        marcador.setOptions(options);
+        marcador.setPosition(coordenada);
+        map.setCenter(coordenada);
+        System.out.println("Marcador Disque Azul Agregado");
+        return marcador;
+    }
+    
     public void agregarLinea(LatLng inicio, LatLng fin, boolean marcador){
         LatLng[] linea = {inicio, fin};
         Polyline pl = new Polyline(map);
