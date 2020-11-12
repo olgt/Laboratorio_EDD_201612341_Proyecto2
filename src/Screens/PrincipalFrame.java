@@ -877,6 +877,80 @@ public class PrincipalFrame extends javax.swing.JFrame {
                 {null, null},
                 {null, null},
                 {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
                 {null, null}
             },
             new String [] {
@@ -1626,7 +1700,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cargarMapaButtonActionPerformed
 
     private void buttonPedirViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPedirViajeActionPerformed
-        
+
         panelMainUsuario.setVisible(false);
         panelPedirViaje.setVisible(true);
         this.setContentPane(panelPedirViaje);
@@ -1640,12 +1714,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
         //Tabla Lugares Disponibles
         TableModel modelo = jTableLugares.getModel();
 
-        for (int i = 0; i < tablaLugares.getCarga(); i++){
+        for (int i = 0; i < tablaLugares.getCarga(); i++) {
             modelo.setValueAt(categorias[i], i, 0);
             modelo.setValueAt(lugares[i], i, 1);
         }
         jTableLugares.setModel(modelo);
-
     }//GEN-LAST:event_buttonPedirViajeActionPerformed
 
     private void buttonSalirMainConductor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalirMainConductor1ActionPerformed
@@ -1675,11 +1748,9 @@ public class PrincipalFrame extends javax.swing.JFrame {
         int idLugarMatrizAdyecenciaLugar = metodos.encontrarIndexDeNodo(grafo.getMatriz(), nodoLugarSeleccinado.getNombre());
         ListaEnlazada lista = new ListaEnlazada();
         labelPrecio.setText(Double.toString(algoritmo.dijkstra(grafo.getMatriz(), idLugarMatrizAdyecenciaUsuario, idLugarMatrizAdyecenciaLugar, lista)));
-        
+
         System.out.println();
         lista.recorrerLista();
-        
-            
 
         //************************** Dibujando Mapa
         NodoTemp temp = lista.getHead();
@@ -1694,14 +1765,14 @@ public class PrincipalFrame extends javax.swing.JFrame {
         }
 
         metodos.mostrarMapaRutaDjikstra(grafo, arrayLugares);
-        
+
         labelPrecio.repaint();
 
         System.out.println("Done");
     }//GEN-LAST:event_buttonCalcularViajeActionPerformed
 
     private void buttonPedirViajeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPedirViajeUsuarioActionPerformed
-       //Obtenemos lugar Seleccionado
+        //Obtenemos lugar Seleccionado
         int row = jTableLugares.getSelectedRow();
         String lugarSeleccinado = (String) jTableLugares.getValueAt(row, 1);
         NodeLugar nodoLugarSeleccinado = tablaLugares.buscar(metodos.ascii(lugarSeleccinado), lugarSeleccinado);
@@ -1721,13 +1792,12 @@ public class PrincipalFrame extends javax.swing.JFrame {
         ListaEnlazada lista = new ListaEnlazada();
         double precio = algoritmo.dijkstra(grafo.getMatriz(), idLugarMatrizAdyecenciaUsuario, idLugarMatrizAdyecenciaLugar, lista);
         labelPrecio.setText(Double.toString(precio));
-        
+
         System.out.println();
         lista.recorrerLista();
-        
+        System.out.println();
         
         //************************** Dibujando Mapa
-       //************************** Dibujando Mapa
         NodoTemp temp = lista.getHead();
         NodeLugar arrayLugares[] = new NodeLugar[lista.getSize()];
         NodeLugar nuevoArreglo[] = grafo.llenarArreglo(tablaLugares);
@@ -1740,38 +1810,65 @@ public class PrincipalFrame extends javax.swing.JFrame {
         }
 
         metodos.mostrarMapaRutaDjikstra(grafo, arrayLugares);
-        
+
         labelPrecio.repaint();
 
         System.out.println("Done");
-        
-        
-        //Agregamos el dato al arbol de viajes del usuario
-        ArbolB arbolDeViajes = usuarioActual.getViajes();
 
-        int idNuevoViaje = arbolDeViajes.getLastIndexViaje(arbolDeViajes.getRaiz()) + 1;
-        Viaje nuevoViaje = new Viaje(idNuevoViaje, usuarioActual.getLugarActual(), lugarSeleccinado, java.time.LocalDate.now());
-        arbolDeViajes.insertar(idNuevoViaje, nuevoViaje);
-        System.out.println("Viaje Agregado");
+        //Encontrado Conductor Cercano
+        Distancia nuevaDistancia = new Distancia();
+        //Page pagina, Usuario conductorActual, Grafo grafo, int lugarDePasajero, Distancia distanciaActualAUsuario
+        Usuario conductorCercano = arbolConductores.encontrarUsuarioMasCercano(arbolConductores.getRaiz(), null, grafo, idLugarMatrizAdyecenciaUsuario, nuevaDistancia);
+        if (conductorCercano == null) {
+            System.out.println("No hay conductor cercano");
+        } else {
+            System.out.println(conductorCercano.getNombre());
+        }
 
-        //Cambiamos posicicon de Usuario
-        usuarioActual.setLugarActual(lugarSeleccinado);
+        if (conductorCercano != null) {
 
-        //Agregamos la factura al arbol de Facturas del usuario
-        ArbolB arbolDeFacturas = usuarioActual.getFacturas();
+            //Agregamos el dato al arbol de viajes del usuario
+            ArbolB arbolDeViajes = usuarioActual.getViajes();
 
-        //    public Factura(int id, int id_usuario, int id_conductor, int id_viaje, LocalDate fecha, double monto)
-        Factura nuevaFactura = new Factura(arbolDeFacturas.getLastIndexFactura(arbolDeFacturas.getRaiz()) + 1, usuarioActual.getId(), 0, idNuevoViaje, java.time.LocalDate.now(), precio);
-        arbolDeFacturas.insertar(nuevaFactura.getId(), nuevaFactura);
-        System.out.println("Factura Agregada");
+            int idNuevoViaje = arbolDeViajes.getLastIndexViaje(arbolDeViajes.getRaiz()) + 1;
+            Viaje nuevoViaje = new Viaje(idNuevoViaje, usuarioActual.getLugarActual(), lugarSeleccinado, java.time.LocalDate.now());
+            arbolDeViajes.insertar(idNuevoViaje, nuevoViaje);
+            System.out.println("Viaje Agregado");
 
-        //Llenamos tabla Factura
-        llenarTableFacturas(jTableFactura, nuevaFactura);
-        panelFactura.setVisible(true);
-        this.setContentPane(panelFactura);
+            //Agregamos el dato al arbol de viajes del conductor
+            ArbolB arbolDeViajesConductor = conductorCercano.getViajes();
 
-        buttonSalirFactura.setText("Volver a Pedir Viaje");
-        panelPedirViaje.setVisible(false);
+            int idNuevoViajeConductor = arbolDeViajesConductor.getLastIndexViaje(arbolDeViajesConductor.getRaiz()) + 1;
+            Viaje nuevoViajeConductor = new Viaje(idNuevoViajeConductor, conductorCercano.getLugarActual(), lugarSeleccinado, java.time.LocalDate.now());
+            arbolDeViajesConductor.insertar(idNuevoViajeConductor, nuevoViajeConductor);
+            System.out.println("Viaje Agregado Conductor");
+
+            //Cambiamos posicicon de Usuarios
+            usuarioActual.setLugarActual(lugarSeleccinado);
+            conductorCercano.setLugarActual(lugarSeleccinado);
+
+            //Agregamos la factura al arbol de Facturas del usuario
+            ArbolB arbolDeFacturas = usuarioActual.getFacturas();
+
+            Factura nuevaFactura = new Factura(arbolDeFacturas.getLastIndexFactura(arbolDeFacturas.getRaiz()) + 1, usuarioActual.getId(), conductorCercano.getId(), idNuevoViaje, java.time.LocalDate.now(), precio);
+            arbolDeFacturas.insertar(nuevaFactura.getId(), nuevaFactura);
+            System.out.println("Factura Agregada");
+
+            //Facturas de Conductor
+            ArbolB arbolDeFacturasConductor = conductorCercano.getFacturas();
+
+            Factura nuevaFacturaConductor = new Factura(arbolDeFacturasConductor.getLastIndexFactura(arbolDeFacturasConductor.getRaiz()) + 1, usuarioActual.getId(), conductorCercano.getId(), idNuevoViajeConductor, java.time.LocalDate.now(), precio);
+            arbolDeFacturasConductor.insertar(nuevaFacturaConductor.getId(), nuevaFacturaConductor);
+            System.out.println("Factura Agregada Conductor");
+
+            //Llenamos tabla Factura
+            llenarTableFacturas(jTableFactura, nuevaFactura);
+            panelFactura.setVisible(true);
+            this.setContentPane(panelFactura);
+
+            buttonSalirFactura.setText("Volver a Pedir Viaje");
+            panelPedirViaje.setVisible(false);
+        }
 
     }//GEN-LAST:event_buttonPedirViajeUsuarioActionPerformed
 
@@ -1846,11 +1943,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
             Foo encontradoFactura = new Foo();
             Factura nuevaFactura = arbolFacturaUsuario.encontrarFacturaPorIdViaje(viaje.getId(), arbolFacturaUsuario.getRaiz(), encontradoFactura);
 
-            labelFechaViaje.setText(viaje.getFecha().toString());
-            labelNombreFinal.setText(viaje.getNombreFinal());
-            labelNombreInicio.setText(viaje.getNombreInicio());
+            labelFechaViajeConductor.setText(viaje.getFecha().toString());
+            labelNombreFinalConductor.setText(viaje.getNombreFinal());
+            labelNombreInicioConductor.setText(viaje.getNombreInicio());
             if (nuevaFactura != null) {
-                labelPrecio.setText(Double.toString(nuevaFactura.getMonto()));
+                costo.setText(Double.toString(nuevaFactura.getMonto()));
             }
         }
     }//GEN-LAST:event_buttonSeleccionarViajeConductorActionPerformed

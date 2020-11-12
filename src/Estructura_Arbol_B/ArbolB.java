@@ -5,9 +5,13 @@
  */
 package Estructura_Arbol_B;
 
+import Estructura_Grafo.DijkstrasAlgorithm;
+import Estructura_Grafo.Grafo;
 import Estructura_Tabla_Hash.NodeLugar;
 import Estructura_Tabla_Hash.Table;
+import Utilities.Distancia;
 import Utilities.Foo;
+import Utilities.ListaEnlazada;
 import java.io.FileWriter;
 import java.io.IOException;
 import Utilities.Metodos;
@@ -257,43 +261,37 @@ public class ArbolB<T extends Comparable<T>, V> {
         return actual;
     }
 
-    public Usuario encontrarUsuarioMasCercano(Page pagina, Usuario conductorActual, Table tablaHashLugares, double lat, double lon) {
-
-        Metodos metodos = new Metodos();
-        Usuario conductorTemp = null;
-
-        NodeLugar lugarConductorActual = tablaHashLugares.buscar(metodos.ascii(conductorActual.getLugarActual()), conductorActual.getLugarActual());
-
-        double diferenciaActualLat = abs(lat - lugarConductorActual.getLat());
-        double diferenciaActualLon = abs(lon - lugarConductorActual.getLon());
-        double distanciaActualAUsuario = Math.sqrt((diferenciaActualLat * diferenciaActualLat) + (diferenciaActualLon * diferenciaActualLon));
+    public Usuario encontrarUsuarioMasCercano(Page pagina, Usuario conductorActual, Grafo grafo, int lugarDePasajero, Distancia distanciaActualAUsuario) {
+        
+        DijkstrasAlgorithm nuevoAlgoritmo = new DijkstrasAlgorithm();
+        Metodos metodos = new Metodos();        
+        ListaEnlazada listaInutil = new ListaEnlazada();
 
         Page paginaActual = pagina;
         Key[] llaves = paginaActual.getLlaves();
-
+        
         for (int i = 0; i < k; i++) {
             Key llaveActual = llaves[i];
             if (llaveActual != null) {
-                conductorTemp = (Usuario) llaveActual.getValor();
-                String lugarNombreConductorTemp = conductorTemp.getLugarActual();
+                Usuario conductorTemp = (Usuario) llaveActual.getValor();
+                int idLugarMatrizAdyecenciaConductor = metodos.encontrarIndexDeNodo(grafo.getMatriz(), conductorTemp.getLugarActual());
+                
                 boolean disponible = conductorTemp.getDisponible();
-
-                NodeLugar lugarConductorTemp = tablaHashLugares.buscar(metodos.ascii(lugarNombreConductorTemp), lugarNombreConductorTemp);
-                double diferenciaTempLat = abs(lat - lugarConductorTemp.getLat());
-                double diferenciaTemplLon = abs(lon - lugarConductorTemp.getLon());
-                double distanciaTempAUsuario = Math.sqrt((diferenciaTempLat * diferenciaTempLat) + (diferenciaTemplLon * diferenciaTemplLon));
-
+                double distanciaTempAUsuario = nuevoAlgoritmo.dijkstraPeso(grafo.getMatriz(), idLugarMatrizAdyecenciaConductor, lugarDePasajero, listaInutil);
+                
                 if (conductorActual == null) {
                     conductorActual = conductorTemp;
+                    distanciaActualAUsuario.distancia = nuevoAlgoritmo.dijkstraPeso(grafo.getMatriz(), idLugarMatrizAdyecenciaConductor, lugarDePasajero, listaInutil);
                 }
-                if (disponible && distanciaActualAUsuario < distanciaTempAUsuario) {
+                if (disponible && distanciaTempAUsuario < distanciaActualAUsuario.distancia) {
                     conductorActual = conductorTemp;
+                    distanciaActualAUsuario.distancia = distanciaTempAUsuario;
                 }
                 if (llaveActual.getDerecha() != null) {
-                    conductorActual = encontrarUsuarioMasCercano(llaveActual.getDerecha(), conductorActual, tablaHashLugares, lat, lon);
+                    conductorActual = encontrarUsuarioMasCercano(llaveActual.getDerecha(), conductorActual, grafo, lugarDePasajero, distanciaActualAUsuario);
                 }
                 if (llaveActual.getIzquierda() != null) {
-                    conductorActual = encontrarUsuarioMasCercano(llaveActual.getIzquierda(), conductorActual, tablaHashLugares, lat, lon);
+                    conductorActual = encontrarUsuarioMasCercano(llaveActual.getDerecha(), conductorActual, grafo, lugarDePasajero, distanciaActualAUsuario);
                 }
             }
         }

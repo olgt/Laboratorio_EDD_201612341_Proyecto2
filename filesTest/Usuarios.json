@@ -12,9 +12,9 @@
   {
 	 "id":25,
 	 "nombre":"Michael Schumacher",
-	 "usuario":"mschumacher",
+	 "usuario":"oscar2",
 	 "correo":"mschumacher@gmail.com",
-	 "pass":"schumacher",
+	 "pass":"123",
 	 "telefono":"20201921",
 	 "rol":"conductor"
   },

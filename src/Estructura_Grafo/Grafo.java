@@ -33,7 +33,7 @@ public class Grafo {
     }
 
     //(int id, int verticeOrigen, int verticeDestino, double precio, int peso, String moneda, String unidad)
-    public void enlazar(int id, String a, String b, double precio, int peso, String moneda, String unidad) {
+    public void enlazar(int id, String a, String b, double precio, double peso, String moneda, String unidad) {
         Vertice origen, destino;
         origen = existe(a);
         destino = existe(b);

@@ -62,7 +62,7 @@ public class JsonFileOpenerConexiones {
         String inicio;
         JSONArray jsonArray1 = (JSONArray) this.jsonFile.get("Grafo");
         JSONObject jsonArray2 = (JSONObject) jsonArray1.get(index);
-        
+
         inicio = (String) jsonArray2.get("inicio");
 
         return inicio;
@@ -78,24 +78,33 @@ public class JsonFileOpenerConexiones {
         return idDestinoFinal;
     }
 
-    public long getPeso(int index) {
-        long peso;
+    public Double getPeso(int index) {
+        double peso = 0;
+        double peso2 = 0;
         JSONArray jsonArray1 = (JSONArray) this.jsonFile.get("Grafo");
         JSONObject jsonArray2 = (JSONObject) jsonArray1.get(index);
 
-        peso = (long) jsonArray2.get("peso");
-
-        return peso;
+        if (jsonArray2.get("peso") instanceof Long) {
+            peso2 = ((Long) jsonArray2.get("peso")).doubleValue();
+        } else if (jsonArray2.get("peso") instanceof Double) {
+            peso2 = (Double) jsonArray2.get("peso");
+        }
+        
+        return peso2;
     }
 
-    public long getPrecio(int index) {
-        long precio;
+    public double getPrecio(int index) {
+        double precio2 = 0;
         JSONArray jsonArray1 = (JSONArray) this.jsonFile.get("Grafo");
         JSONObject jsonArray2 = (JSONObject) jsonArray1.get(index);
 
-        precio = (long) jsonArray2.get("precio");
-
-        return precio;
+        if (jsonArray2.get("precio") instanceof Long) {
+            precio2 = ((Long) jsonArray2.get("precio")).doubleValue();
+        } else if (jsonArray2.get("precio") instanceof Double) {
+            precio2 = (Double) jsonArray2.get("precio");
+        }
+        
+        return precio2;
     }
 
     public String getUnidad(int index) {
@@ -125,7 +134,7 @@ public class JsonFileOpenerConexiones {
         for (char ch : letters) {
             valorAscii = +(byte) ch;
         }
-        
+
         return valorAscii;
 
     }
@@ -135,13 +144,13 @@ public class JsonFileOpenerConexiones {
         for (int i = 0; i < this.size; i++) {
             int ascii1 = getAscii(getInicio(i));
             int ascii2 = getAscii(getFinal(i));
-            
+
             //(int i, String categoria, String nombre, int latitud, int longitud
             NodeLugar lugar1 = tablasHash.buscar(ascii1, getInicio(i));
             NodeLugar lugar2 = tablasHash.buscar(ascii2, getFinal(i));
-            
-            grafo.enlazar(i, lugar1.getNombre(), lugar2.getNombre(), (double) getPrecio(i), (int) getPeso(i), getMoneda(i), getUnidad(i));
-            
+
+            grafo.enlazar(i, lugar1.getNombre(), lugar2.getNombre(), (double) getPrecio(i), (double) getPeso(i), getMoneda(i), getUnidad(i));
+
         }
         grafo.crearMatrizAdyecencia(tablasHash);
     }

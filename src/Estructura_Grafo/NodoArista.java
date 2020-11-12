@@ -20,12 +20,11 @@ public class NodoArista {
     private int id;
     private String verticeOrigen, verticeDestino;
     private NodoArista siguiente, anterior;
-    private int peso;
     private String unidad;
     private String moneda;
-    private double precio;
+    private double precio, peso;
     
-    public NodoArista(int id, String verticeOrigen, String verticeDestino, double precio, int peso, String moneda, String unidad){
+    public NodoArista(int id, String verticeOrigen, String verticeDestino, double precio, double peso, String moneda, String unidad){
         this.id = id;
         this.verticeOrigen = verticeOrigen;
         this.verticeDestino = verticeDestino;
@@ -41,14 +40,14 @@ public class NodoArista {
     /**
      * @return the peso
      */
-    public int getPeso() {
+    public double getPeso() {
         return peso;
     }
 
     /**
      * @param peso the peso to set
      */
-    public void setPeso(int peso) {
+    public void setPeso(double peso) {
         this.peso = peso;
     }
 
