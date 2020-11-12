@@ -134,6 +134,8 @@ public class PrincipalFrame extends javax.swing.JFrame {
         buttonDetallesConductor = new javax.swing.JButton();
         buttonSalirMainConductor = new javax.swing.JButton();
         mensajeBienvenidaUsuario1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        ViajeActivo = new javax.swing.JLabel();
         panelPedirViaje = new javax.swing.JPanel();
         buttonSalirMainConductor1 = new javax.swing.JButton();
         mensajeBienvenidaUsuario2 = new javax.swing.JLabel();
@@ -804,16 +806,33 @@ public class PrincipalFrame extends javax.swing.JFrame {
         mensajeBienvenidaUsuario1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mensajeBienvenidaUsuario1.setText("jLabel1");
 
+        jButton1.setText("Terminar Viaje");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        ViajeActivo.setText("*Viaje Activo*");
+
         javax.swing.GroupLayout panelMainConductorLayout = new javax.swing.GroupLayout(panelMainConductor);
         panelMainConductor.setLayout(panelMainConductorLayout);
         panelMainConductorLayout.setHorizontalGroup(
             panelMainConductorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainConductorLayout.createSequentialGroup()
-                .addGap(202, 202, 202)
-                .addGroup(panelMainConductorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(mensajeBienvenidaUsuario1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonSalirMainConductor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonDetallesConductor, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                .addGroup(panelMainConductorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMainConductorLayout.createSequentialGroup()
+                        .addGap(202, 202, 202)
+                        .addGroup(panelMainConductorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(mensajeBienvenidaUsuario1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonSalirMainConductor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonDetallesConductor, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)))
+                    .addGroup(panelMainConductorLayout.createSequentialGroup()
+                        .addGap(286, 286, 286)
+                        .addComponent(jButton1))
+                    .addGroup(panelMainConductorLayout.createSequentialGroup()
+                        .addGap(306, 306, 306)
+                        .addComponent(ViajeActivo)))
                 .addContainerGap(238, Short.MAX_VALUE))
         );
         panelMainConductorLayout.setVerticalGroup(
@@ -821,7 +840,11 @@ public class PrincipalFrame extends javax.swing.JFrame {
             .addGroup(panelMainConductorLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(mensajeBienvenidaUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(214, 214, 214)
+                .addGap(117, 117, 117)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ViajeActivo)
+                .addGap(43, 43, 43)
                 .addComponent(buttonDetallesConductor, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(buttonSalirMainConductor, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1391,6 +1414,10 @@ public class PrincipalFrame extends javax.swing.JFrame {
                 textFieldCorreo1.setText(actual.getCorreo());
                 textFieldNombre1.setText(actual.getNombre());
                 textFieldTelefono1.setText(actual.getTelefono());
+                
+                if(!usuarioActual.getDisponible()){
+                    ViajeActivo.setVisible(true);
+                }
 
                 this.setContentPane(panelMainConductor);
                 this.repaint();
@@ -1846,6 +1873,8 @@ public class PrincipalFrame extends javax.swing.JFrame {
             //Cambiamos posicicon de Usuarios
             usuarioActual.setLugarActual(lugarSeleccinado);
             conductorCercano.setLugarActual(lugarSeleccinado);
+            
+            conductorCercano.setDisponible(false);
 
             //Agregamos la factura al arbol de Facturas del usuario
             ArbolB arbolDeFacturas = usuarioActual.getFacturas();
@@ -1952,6 +1981,12 @@ public class PrincipalFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonSeleccionarViajeConductorActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        usuarioActual.setDisponible(true);
+        ViajeActivo.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1989,6 +2024,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel ViajeActivo;
     private javax.swing.JButton buttonCalcularViaje;
     private javax.swing.JButton buttonCerrarCuenta;
     private javax.swing.JButton buttonCerrarCuenta1;
@@ -2017,6 +2053,7 @@ public class PrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxRoles;
     private javax.swing.JLabel costo;
     private javax.swing.JButton ingresarButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
